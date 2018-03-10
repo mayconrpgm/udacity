@@ -22,7 +22,7 @@ for line in sys.stdin:
 
 			path = uri.split(' ')[1]
 			if path.startswith("http://www.the-associates.co.uk"):
-				path = path[32:]
+				path = path[31:]
 
 			print "{0}\t{1}".format(path, 1)
 
