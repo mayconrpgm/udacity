@@ -2,7 +2,7 @@
 
 import re
 
-line = '10.223.157.186 - - [15/Jul/2009:14:58:59 -0700] "GET http://www.the-assocciates.co.uk/teste HTTP/1.1" 403 202'
+line = '10.223.157.186 - - [15/Jul/2009:14:58:59 -0700] "GET http://www.the-associates.co.uk/teste HTTP/1.1" 403 202'
 regex = '([(\d\.)]+) (-) (-) \[(.*?)\] "(.*?)" (\d+) ([\d-]+)'
 
 

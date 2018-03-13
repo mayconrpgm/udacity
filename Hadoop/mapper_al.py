@@ -21,7 +21,7 @@ for line in sys.stdin:
 			ip, customer_id, user_name, time, uri, status_code, bytes = data
 
 			path = uri.split(' ')[1]
-			if path.startswith("http://www.the-assocciates.co.uk"):
+			if path.startswith("http://www.the-associates.co.uk"):
 				path = path[32:]
 
 			print "{0}\t{1}".format(path, 1)
