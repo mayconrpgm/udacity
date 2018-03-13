@@ -20,8 +20,9 @@ for line in sys.stdin:
 		if len(data) == 7:
 			ip, customer_id, user_name, time, uri, status_code, bytes = data
 
-			if uri.startswith("http://www.the-assocciates.co.uk"):
-				uri = uri[32:]
+			path = uri.split(' ')[1]
+			if path.startswith("http://www.the-assocciates.co.uk"):
+				path = path[32:]
 
-			print "{0}\t{1}".format(uri, 1)
+			print "{0}\t{1}".format(path, 1)
 
