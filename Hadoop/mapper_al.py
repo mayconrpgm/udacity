@@ -19,5 +19,9 @@ for line in sys.stdin:
 		data = match.groups()
 		if len(data) == 7:
 			ip, customer_id, user_name, time, uri, status_code, bytes = data
+
+			if uri.startswith("http://www.the-assocciates.co.uk"):
+				uri = uri[32:]
+
 			print "{0}\t{1}".format(uri, 1)
 
