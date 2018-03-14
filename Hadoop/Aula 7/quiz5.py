@@ -12,20 +12,18 @@ def mapper():
     reader = csv.reader(sys.stdin, delimiter='\t')
     writer = csv.writer(sys.stdout, delimiter='\t', quotechar='"', quoting=csv.QUOTE_ALL)
     posts = []
-    count = 0
+    max_size = 10
     
     for line in reader:
         # YOUR CODE HERE
         posts.append([len(line[4]), line])
+        posts.sort()
         
-    posts.sort()
-    
-    for post in posts[(len(posts) - 10):]:
-        if count < 10:
-            writer.writerow(post[1])
-            count += 1
-        else:
-            break
+        if len(posts) > max_size:
+            posts.pop(0)
+        
+    for post in posts:
+        writer.writerow(post[1])
     
 
 test_text = """\"\"\t\"\"\t\"\"\t\"\"\t\"333\"\t\"\"
