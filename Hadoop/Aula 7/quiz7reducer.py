@@ -4,6 +4,7 @@ import sys
 
 post_ids = set()
 old_word = None
+word_count = 0
 
 # Loop around the data
 # It will be in the format key\tval
@@ -22,12 +23,14 @@ for line in sys.stdin:
     post_ids.add(data_mapped[1])
 
     if old_word and old_word != this_word:
-        print old_word, "\t", ",".join(sorted(post_ids))
+        print old_word, "\t", word_count, "\t", ",".join(sorted(post_ids))
         old_word = this_word;
         post_ids = set()
+        word_count = 0
 
     old_word = this_word
+    word_count += 1
 
 if old_word != None:
-    print old_word, "\t", ",".join(sorted(post_ids))
+    print old_word, "\t", word_count, "\t", ",".join(sorted(post_ids))
 

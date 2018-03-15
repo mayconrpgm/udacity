@@ -36,4 +36,4 @@ for line in reader:
 		for w in words:
 			w = w.strip()
 			if len(w) > 0:
-				print w, "\t", line[0]
+				print w.lower(), "\t", line[0]
