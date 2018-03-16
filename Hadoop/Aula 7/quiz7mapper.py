@@ -27,9 +27,9 @@ reader = csv.reader(sys.stdin, delimiter='\t')
 char_list = ['.', ',', '!', '?', ':', ';', '"', '(', ')', '<', '>', '[', ']', '#', '$', '=', '-', '/', '\n']
 
 for line in reader:
-	if line[0] != 'id':
+	if line[0].isdigit():
 		for char in char_list:
-			line[4] = line[4].replace(char, ' ')            
+			line[4] = line[4].replace(char, ' ')
 
 		words = line[4].split(' ')
 			
