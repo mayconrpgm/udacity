@@ -23,7 +23,8 @@ for line in sys.stdin:
     post_ids.append(data_mapped[1])
 
     if old_word and old_word != this_word:
-        print old_word, "\t", word_count, "\t", ",".join(sorted(post_ids, keys = lambda x: int(x)))
+        if (old_word == 'fantastically'):
+            print old_word, "\t", word_count, "\t", ",".join(sorted(post_ids, keys = lambda x: int(x)))
         old_word = this_word;
         post_ids[:] = []
         word_count = 0
@@ -32,5 +33,6 @@ for line in sys.stdin:
     word_count += 1
 
 if old_word != None:
-    print old_word, "\t", word_count, "\t", ",".join(sorted(post_ids, keys = lambda x: int(x)))
+    if (old_word == 'fantastically'):
+        print old_word, "\t", word_count, "\t", ",".join(sorted(post_ids, keys = lambda x: int(x)))
 
