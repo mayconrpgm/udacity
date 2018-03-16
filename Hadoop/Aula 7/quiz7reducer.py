@@ -20,17 +20,16 @@ for line in sys.stdin:
 		continue
 
 	this_word = data_mapped[0]
-	post_ids.append(data_mapped[1])
 
 	if old_word and old_word != this_word:
-		print old_word, "\t", word_count, "\t", ",".join(sorted(post_ids))
-		old_word = this_word;
-		post_ids[:] = []
+		print old_word, "\t", word_count, "\t", ",".join(sorted(post_ids, key = int))
+		post_ids = []
 		word_count = 0
 
 	old_word = this_word
+	post_ids.append(data_mapped[1])
 	word_count += 1
 
 if old_word != None:
-	print old_word, "\t", word_count, "\t", ",".join(sorted(post_ids))
+	print old_word, "\t", word_count, "\t", ",".join(sorted(post_ids, key = int))
 
