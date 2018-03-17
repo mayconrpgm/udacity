@@ -22,7 +22,7 @@ for line in sys.stdin:
 	this_key, this_sale, this_count = data_mapped
 
 	if old_key and old_key != this_key:
-		print old_key, "\t", (sales_total / sales_count)
+		print old_key, "\t", sales_total , "\t", sales_count
 		old_key = this_key;
 		sales_total = 0
 		sales_count = 0
@@ -32,5 +32,5 @@ for line in sys.stdin:
 	sales_count += float(this_count)
 
 if old_key != None:
-	print old_key, "\t", (sales_total / sales_count)
+	print old_key, "\t", sales_total , "\t", sales_count
 
