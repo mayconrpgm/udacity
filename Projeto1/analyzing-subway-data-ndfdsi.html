@@ -12704,7 +12704,7 @@ Nós complementamos para você este arquivo com os dados de clima de Nova Iorque
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
@@ -12973,11 +12973,12 @@ memory usage: 22.1+ MB
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">num_rainy_days</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;rain&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">][</span><span class="s1">&#39;rain&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+    <span class="n">groups</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;rain&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;DATEn&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">groups</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">groups</span><span class="p">)</span>
     
     <span class="k">return</span> <span class="n">c</span>
 
@@ -12998,7 +12999,7 @@ memory usage: 22.1+ MB
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>44104
+<pre>10
 </pre>
 </div>
 </div>
@@ -13228,7 +13229,8 @@ Abaixo está um exemplo sobre como traçar histogramas com pandas e matplotlib:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong> Resposta </strong>: Existe diferença. Nos dias chuvosos, a frequência de entradas cai visivelmente pela metade nas faixas à esquerda dos histogramas</p>
+<p><strong> Resposta </strong>: Existe diferença. Nos dias chuvosos, a frequência de entradas cai visivelmente pela metade nas faixas à esquerda dos histogramas.</p>
+<p>Contudo, em ambos os casos, há uma distribuição assimétrica positiva.</p>
 
 </div>
 </div>
