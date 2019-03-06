@@ -1,0 +1,1406 @@
+
+% Default to the notebook output style
+
+    
+
+
+% Inherit from the specified cell style.
+
+
+
+
+    
+\documentclass[11pt]{article}
+
+    
+    
+    \usepackage[T1]{fontenc}
+    % Nicer default font (+ math font) than Computer Modern for most use cases
+    \usepackage{mathpazo}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    
+
+    
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatability definitions
+    \def\gt{>}
+    \def\lt{<}
+    % Document parameters
+    \title{Analise\_Bay\_Area\_Bike\_Share-NDFDSI}
+    
+    
+    
+
+    % Pygments definitions
+    
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % Exact colors from NB
+    \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
+    \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+    \begin{document}
+    
+    
+    \maketitle
+    
+    
+
+    
+    \section{Análise da Bay Area Bike
+Share}\label{anuxe1lise-da-bay-area-bike-share}
+
+\subsection{Introdução}\label{introduuxe7uxe3o}
+
+\begin{quote}
+\textbf{Dica}: Seções citadas como esta fornecerão instruções úteis
+sobre como navegar e usar um notebook do iPython.
+\end{quote}
+
+\href{http://www.bayareabikeshare.com/}{Bay Area Bike Share} é uma
+empresa que oferece aluguel de bicicletas on-demand para clientes em San
+Francisco, Redwood City, Palo Alto, Mountain View e San Jose. Os
+usuários podem desbloquear bicicletas de uma variedade de estações em
+cada cidade, e devolvê-las em qualquer estação dentro da mesma cidade.
+Os usuários pagam o serviço por meio de assinatura anual ou pela compra
+de passes de 3 dias ou 24 horas. Os usuários podem fazer um número
+ilimitado de viagens. Viagens com menos de trinta minutos de duração não
+têm custo adicional; Viagens mais longas incorrem em taxas de horas
+extras.
+
+Neste projeto, você vai se colocar no lugar de um analista de dados
+realizando uma análise exploratória sobre os dados. Você vai dar uma
+olhada em duas das principais partes do processo de análise de dados:
+limpeza de dados e análise exploratória. Mas antes que você comece a
+olhar os dados, pense algumas perguntas que você pode querer fazer sobre
+os dados. Considere, por exemplo, se você estivesse trabalhando para Bay
+Area Bike Share: que tipo de informação você gostaria de saber a fim de
+tomar decisões de negócios mais inteligentes? Ou você pode pensar se
+você fosse um usuário do serviço de compartilhamento de bicicletas. Que
+fatores podem influenciar a maneira como você gostaria de usar o
+serviço?
+
+    \section{Sobre este projeto}\label{sobre-este-projeto}
+
+Este é o seu primeiro projeto com a Udacity. Queremos fazer com que você
+treine os conhecimentos aprendidos durante o curso e que entenda algumas
+das dificuldades que pode ter quando for aplicar os mesmos.
+
+Os principais pontos que serão verificados neste trabalho:
+
+\begin{itemize}
+\tightlist
+\item
+  Criação de dicionários e mapeamento de variáveis
+\item
+  Uso de lógica com o \texttt{if}
+\item
+  Manipulação de dados e criação de gráficos simples com o
+  \texttt{Pandas}
+\end{itemize}
+
+\emph{Como conseguir ajuda}: Sugerimos que tente os seguintes canais,
+nas seguintes ordens:
+
+\begin{longtable}[]{@{}lllll@{}}
+\toprule
+Tipo de dúvida\Canais & Google & Fórum & Slack & Email\tabularnewline
+\midrule
+\endhead
+Programação Pyhon e Pandas & 1 & 2 & 3 &\tabularnewline
+Requisitos do projeto & & 1 & 2 & 3\tabularnewline
+Partes específicas do Projeto & & 1 & 2 & 3\tabularnewline
+\bottomrule
+\end{longtable}
+
+Os endereços dos canais são:
+
+\begin{itemize}
+\tightlist
+\item
+  Fórum: https://discussions.udacity.com/c/ndfdsi-project
+\item
+  Slack:
+  \href{https://udacity-br.slack.com/messages/C5MT6E3E1}{udacity-br.slack.com}
+\item
+  Email: data-suporte@udacity.com
+\end{itemize}
+
+\textbf{Espera-se que o estudante entregue este relatório com:}
+
+\begin{itemize}
+\tightlist
+\item
+  Todos os TODO feitos, pois eles são essenciais para que o código rode
+  corretamente
+\item
+  Todas as perguntas respondidas. Elas estão identificadas como PERGUNTA
+  em letras grandes.
+\end{itemize}
+
+Para entregar este projeto, vá a
+\href{https://classroom.udacity.com/nanodegrees/nd110/parts/05e3b1e2-ff23-488f-aaec-caba12ad8ed3/modules/519425b3-ee26-4ecd-a952-f689decef51c/lessons/47133342-a203-4df9-9b9e-69b04408e089/project}{sala
+de aula} e submeta o seu \texttt{.ipynb} e um pdf, zipados.
+
+    \section{Pergunta 1}\label{pergunta-1}
+
+Escreva pelo menos duas perguntas que você acha que poderiam ser
+respondidas usando os dados.
+
+    \textbf{Resposta}: - O quão vem crescendo a adesão de novos usuários do
+serviço de assinatura de aluguel de bicicletas? - Em que regiões os
+aluguéis são mais populares? - Existem épocas do ano em que os aluguéis
+caem de forma perceptível (como feriados, no inverno, férias escolares)?
+- O clima de modo geral afeta a taxa de aluguéis?
+
+    \subsection{Usando visualizações para comunicar resultados em
+dados}\label{usando-visualizauxe7uxf5es-para-comunicar-resultados-em-dados}
+
+Como um analista de dados, a capacidade de comunicar eficazmente
+resultados é uma parte fundamental do trabalho. Afinal, sua melhor
+análise é tão boa quanto sua capacidade de comunicá-la.
+
+Em 2014, Bay Area Bike Share realizou um
+\href{http://www.bayareabikeshare.com/datachallenge-2014}{Open Data
+Challenge} para incentivar os analistas de dados a criar visualizações
+com base em seu conjunto de dados aberto. Você criará suas próprias
+visualizações neste projeto, mas primeiro, dê uma olhada no
+\href{http://thfield.github.io/babs/index.html}{vencedor de inscrições
+para Melhor Análise} de Tyler Field. Leia todo o relatório para
+responder à seguinte pergunta:
+
+    \section{Pergunta 2}\label{pergunta-2}
+
+Que visualizações você acha que fornecem as idéias mais interessantes?
+
+Selecione duas visualizações de Tyler que forneçam idéias interessantes
+e que respondam alguma das perguntas da análise de Tyler.
+
+    ** Resposta **: - O gráfico na seção "When is Bay Area Bike Share used?"
+é muito útil pois define claramente os perfis de uso do serviço, nele é
+possível identificar que os usuários do serviço por assinatura em sua
+maioria usam o serviço para ir e voltar do trabalho, enquanto no fim de
+semana há em sua maioria usuários avulsos que provavelmente estão a
+passeio. - O gráfico interativo na seção "Where do people ride Bike
+Share?" é muito útil também para rapidamente analisar os aluguéis sob
+diversas perspectivas, as sobreposições que mostram fins de semana,
+feriados e dias chuvosos, por exemplo, ajudam a visualizar rapidamente a
+correlação entre estes eventos e a quedo do número de aluguéis.
+
+    \section{Pergunta 2.1}\label{pergunta-2.1}
+
+Quais são as perguntas que foram respondidas com suas visualizações?
+Porque você as escolheu?
+
+    ** Resposta **: - Os gráficos na seção "When is Bay Area Bike Share
+used?" respondem quais são os dias e horários com mais frequência de
+aluguéis de acordo com o tipo e ajudam a delinear os perfis de cliente.
+- O gráfico interativo permite analisar como os aluguéis são impactados
+em situações como dias chuvosos, feriados, fins de semana, dias de
+jogos, greves, etc. Ele corrobora a hipótese dos perfis de usuário e que
+em dias chuvosos o uso do serviço cai de forma previsível. Também mostra
+que outros aspectos como temperatura e dias em que ocorreram jogos nas
+cidades aparentam não ter grande impacto no volume de alguéis.
+
+    \subsection{Data Wrangling (Limpeza de
+Dados)}\label{data-wrangling-limpeza-de-dados}
+
+Agora é a sua vez de explorar os dados. Os
+\href{http://www.bayareabikeshare.com/open-data}{dados abertos} do Ano 1
+e do Ano 2 da página Bay Area Bike Share já foram fornecidos com os
+materiais do projeto; você não precisa baixar nada extra. O dado vem em
+três partes: a primeira metade do Ano 1 (arquivos a partir de
+\texttt{201402}), a segunda metade do Ano 1 (arquivos a partir de
+\texttt{201408}) e todo o Ano 2 (arquivos a partir de \texttt{201508}).
+Existem três arquivos de dados principais associados a cada parte: dados
+de viagem que mostram informações sobre cada viagem no sistema
+(\texttt{*\_trip\_data.csv}), informações sobre as estações no sistema
+(\texttt{*\_station\_data.csv}) e dados meteorológicos diários para cada
+cidade no sistema (\texttt{*\_weather\_data.csv}).
+
+Ao lidar com muitos dados, pode ser útil começar trabalhando com apenas
+uma amostra dos dados. Desta forma, será muito mais fácil verificar se
+nossos passos da limpeza de dados (Data Wrangling) estão funcionando,
+pois nosso código demorará menos tempo para ser concluído. Uma vez que
+estamos satisfeitos com a forma como funcionam as coisas, podemos
+configurar o processo para trabalhar no conjunto de dados como um todo.
+
+Uma vez que a maior parte dos dados está contida na informação de
+viagem, devemos segmentar a procura de um subconjunto dos dados da
+viagem para nos ajudar a seguir em frente. Você começará olhando apenas
+o primeiro mês dos dados da viagem de bicicleta, de 2013-08-29 a
+2013-09-30. O código abaixo selecionará os dados da primeira metade do
+primeiro ano, então escreverá o valor do primeiro mês de dados para um
+arquivo de saída. Este código explora o fato de que os dados são
+classificados por data (note que os dois primeiros dias são
+classificados por tempo de viagem, em vez de serem completamente
+cronológicos).
+
+Primeiro, carregue todos os pacotes e funções que você usará em sua
+análise executando a primeira célula de código abaixo. Em seguida,
+execute a segunda célula de código para ler um subconjunto do primeiro
+arquivo de dados de viagem e escrever um novo arquivo contendo apenas o
+subconjunto em que inicialmente estamos interessados.
+
+\begin{quote}
+\textbf{Dica}: Você pode executar uma célula de código ou renderizar um
+texto em Markdown clicando na célula e usando o atalho do teclado
+\textbf{Shift} + \textbf{Enter} ou \textbf{Shift} + \textbf{Return}.
+Alternativamente, uma célula de código pode ser executada usando o botão
+\textbf{Play} na barra de ferramentas (a cima no IPython Notebook)
+depois de selecioná-la. Enquanto a célula estiver em execução, você verá
+um asterisco na mensagem à esquerda da célula, ou seja,
+\texttt{In\ {[}*{]}:}. O asterisco mudará para um número para mostrar
+que a execução foi concluída, Ex: \texttt{In\ {[}1{]}}. Se houver saída,
+ele aparecerá como \texttt{Out\ {[}1{]}:}, com um número apropriado para
+coincidir com o número de "In".
+\end{quote}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}25}]:} \PY{c+c1}{\PYZsh{} Importa todas as bibliotecas necessárias}
+         \PY{o}{\PYZpc{}}\PY{k}{matplotlib} inline
+         \PY{k+kn}{import} \PY{n+nn}{csv}
+         \PY{k+kn}{from} \PY{n+nn}{datetime} \PY{k}{import} \PY{n}{datetime}
+         \PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+         \PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
+         \PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+         \PY{k+kn}{from} \PY{n+nn}{babs\PYZus{}datacheck} \PY{k}{import} \PY{n}{question\PYZus{}3}
+         \PY{k+kn}{from} \PY{n+nn}{babs\PYZus{}visualizations} \PY{k}{import} \PY{n}{usage\PYZus{}stats}\PY{p}{,} \PY{n}{usage\PYZus{}plot}
+         \PY{k+kn}{from} \PY{n+nn}{IPython}\PY{n+nn}{.}\PY{n+nn}{display} \PY{k}{import} \PY{n}{display}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}3}]:} \PY{c+c1}{\PYZsh{} definição dos arquivos}
+        \PY{n}{file\PYZus{}in}  \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{201402\PYZus{}trip\PYZus{}data.csv}\PY{l+s+s1}{\PYZsq{}}
+        \PY{n}{file\PYZus{}out} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{201309\PYZus{}trip\PYZus{}data.csv}\PY{l+s+s1}{\PYZsq{}}
+        
+        \PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{n}{file\PYZus{}out}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{w}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{k}{as} \PY{n}{f\PYZus{}out}\PY{p}{,} \PY{n+nb}{open}\PY{p}{(}\PY{n}{file\PYZus{}in}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{k}{as} \PY{n}{f\PYZus{}in}\PY{p}{:}
+            \PY{c+c1}{\PYZsh{} configura o leitor de csv}
+            \PY{n}{in\PYZus{}reader} \PY{o}{=} \PY{n}{csv}\PY{o}{.}\PY{n}{reader}\PY{p}{(}\PY{n}{f\PYZus{}in}\PY{p}{)}
+            \PY{n}{out\PYZus{}writer} \PY{o}{=} \PY{n}{csv}\PY{o}{.}\PY{n}{writer}\PY{p}{(}\PY{n}{f\PYZus{}out}\PY{p}{)}
+        
+            \PY{c+c1}{\PYZsh{} escreve os dados no arquivo de saída até que a data limite seja atingida}
+            \PY{k}{while} \PY{k+kc}{True}\PY{p}{:}
+                \PY{n}{datarow} \PY{o}{=} \PY{n+nb}{next}\PY{p}{(}\PY{n}{in\PYZus{}reader}\PY{p}{)}
+                \PY{c+c1}{\PYZsh{} data de início de das viagens na terceira coluna no formato \PYZsq{}m/d/yyyy HH:MM\PYZsq{}}
+                \PY{k}{if} \PY{n}{datarow}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{[}\PY{p}{:}\PY{l+m+mi}{9}\PY{p}{]} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{10/1/2013}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}
+                    \PY{k}{break}
+                \PY{n}{out\PYZus{}writer}\PY{o}{.}\PY{n}{writerow}\PY{p}{(}\PY{n}{datarow}\PY{p}{)}
+\end{Verbatim}
+
+
+    \subsubsection{Condensando os Dados de
+Viagem}\label{condensando-os-dados-de-viagem}
+
+O primeiro passo é analisar a estrutura do conjunto de dados para ver se
+há alguma limpeza de dados que devemos realizar. A célula abaixo irá ler
+o arquivo de dados amostrado que você criou na célula anterior. Você
+deve imprimir as primeiras linhas da tabela.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}4}]:} \PY{n}{sample\PYZus{}data} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{201309\PYZus{}trip\PYZus{}data.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        
+        \PY{c+c1}{\PYZsh{} TODO: escreva o código para visualizar as primeiras linhas}
+        \PY{n}{sample\PYZus{}data}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}4}]:}    Trip ID  Duration       Start Date             Start Station  \textbackslash{}
+        0     4576        63  8/29/2013 14:13  South Van Ness at Market   
+        1     4607        70  8/29/2013 14:42        San Jose City Hall   
+        2     4130        71  8/29/2013 10:16   Mountain View City Hall   
+        3     4251        77  8/29/2013 11:29        San Jose City Hall   
+        4     4299        83  8/29/2013 12:02  South Van Ness at Market   
+        
+           Start Terminal         End Date               End Station  End Terminal  \textbackslash{}
+        0              66  8/29/2013 14:14  South Van Ness at Market            66   
+        1              10  8/29/2013 14:43        San Jose City Hall            10   
+        2              27  8/29/2013 10:17   Mountain View City Hall            27   
+        3              10  8/29/2013 11:30        San Jose City Hall            10   
+        4              66  8/29/2013 12:04            Market at 10th            67   
+        
+           Bike \# Subscription Type Zip Code  
+        0     520        Subscriber    94127  
+        1     661        Subscriber    95138  
+        2      48        Subscriber    97214  
+        3      26        Subscriber    95060  
+        4     319        Subscriber    94103  
+\end{Verbatim}
+            
+    Nesta exploração, vamos nos concentrar nos fatores nos dados da viagem
+que afetam o número de viagens realizadas. Vamos focar em algumas
+colunas selecionadas: a duração da viagem (trip duration), hora de
+início (start time), terminal inicial (start terminal), terminal final
+(end terminal) e tipo de assinatura. O tempo de início será dividido em
+componentes de ano, mês e hora. Também adicionaremos uma coluna para o
+dia da semana e resumiremos o terminal inicial e final para ser a
+\emph{cidade} de início e fim.
+
+Vamos primeiro abordar a última parte do processo de limpeza. Execute a
+célula de código abaixo para ver como as informações da estação estão
+estruturadas e observe como o código criará o mapeamento estação-cidade.
+Observe que o mapeamento da estação está configurado como uma função,
+\texttt{create\_station\_mapping()}. Uma vez que é possível que mais
+estações sejam adicionadas ou removidas ao longo do tempo, esta função
+nos permitirá combinar as informações da estação em todas as três partes
+dos nossos dados quando estivermos prontos para explorar tudo.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}5}]:} \PY{c+c1}{\PYZsh{} Mostra as primeiras linhas do arquivo de dados das estações}
+        \PY{n}{station\PYZus{}info} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{201402\PYZus{}station\PYZus{}data.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{station\PYZus{}info}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}5}]:}    station\_id                               name        lat        long  \textbackslash{}
+        0           2  San Jose Diridon Caltrain Station  37.329732 -121.901782   
+        1           3              San Jose Civic Center  37.330698 -121.888979   
+        2           4             Santa Clara at Almaden  37.333988 -121.894902   
+        3           5                   Adobe on Almaden  37.331415 -121.893200   
+        4           6                   San Pedro Square  37.336721 -121.894074   
+        
+           dockcount  landmark installation  
+        0         27  San Jose     8/6/2013  
+        1         15  San Jose     8/5/2013  
+        2         11  San Jose     8/6/2013  
+        3         19  San Jose     8/5/2013  
+        4         15  San Jose     8/7/2013  
+\end{Verbatim}
+            
+    Preencha a função abaixo de forma que a função retorne um mapeamento
+entre o id da estação (\texttt{station\_id}) e a cidade em que ela se
+encontra (\texttt{landmark}).
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}6}]:} \PY{c+c1}{\PYZsh{} esta função será usada mais tarde para criar o mapeamento entre station e cidade}
+        \PY{k}{def} \PY{n+nf}{create\PYZus{}station\PYZus{}mapping}\PY{p}{(}\PY{n}{station\PYZus{}data}\PY{p}{)}\PY{p}{:}
+            \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+        \PY{l+s+sd}{    Cria um mapeamento (tambémm conhecido como de\PYZhy{}para) entre a estação }
+        \PY{l+s+sd}{    e a cidade}
+        \PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+            \PY{c+c1}{\PYZsh{} TODO: Inicie esta variável de maneira correta.}
+            \PY{n}{station\PYZus{}map} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+            \PY{k}{for} \PY{n}{data\PYZus{}file} \PY{o+ow}{in} \PY{n}{station\PYZus{}data}\PY{p}{:}
+                \PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{n}{data\PYZus{}file}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{k}{as} \PY{n}{f\PYZus{}in}\PY{p}{:}
+                    \PY{c+c1}{\PYZsh{} configura o objeto csv reader \PYZhy{} note que está sendo usado o DictReader,}
+                    \PY{c+c1}{\PYZsh{} que usa a primeira linha do arquivo como cabeçalho e cria as chaves}
+                    \PY{c+c1}{\PYZsh{} do dicionário com estes valores.}
+                    \PY{n}{weather\PYZus{}reader} \PY{o}{=} \PY{n}{csv}\PY{o}{.}\PY{n}{DictReader}\PY{p}{(}\PY{n}{f\PYZus{}in}\PY{p}{)}
+        
+                    \PY{k}{for} \PY{n}{row} \PY{o+ow}{in} \PY{n}{weather\PYZus{}reader}\PY{p}{:}
+                        \PY{n}{station\PYZus{}map}\PY{p}{[}\PY{n}{row}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{station\PYZus{}id}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]} \PY{o}{=} \PY{n}{row}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{landmark}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+            \PY{k}{return} \PY{n}{station\PYZus{}map}
+\end{Verbatim}
+
+
+    Você pode agora usar o mapeamento para condensar as viagens para as
+colunas selecionadas acima. Isto acontecerá na função abaixo
+\texttt{summarise\_data()}. Nela o módulo \texttt{datetime} é usado para
+fazer o \textbf{p}arse do tempo (timestamp) em formato de strings no
+arquivo original para um objeto usando a função \texttt{strptime}. Este
+objeto permitirá a conversão para outros \textbf{f}ormatos de datas
+usando a função \texttt{strftime}. O objeto possui também outras funções
+que facilitam a manipulação dos dados. Veja
+\href{http://usandopython.com.br/manipulando-data-hora-python-datetime/}{este
+tutorial} para entender um pouco melhor como trabalhar com a biblioteca.
+
+Você precisa concluir duas tarefas para completar a função
+\texttt{summarise\_data()}. Inicialmente, você deverá realizar a
+operação de converter a duração das viagens de segundos para minutos.
+Esta é muito fácil, pois existem 60 segundos em um minuto!
+
+Na sequência, você deve criar colunas para o ano, mês, hora e dia da
+semana. Verifique o tutorial acima ou a
+\href{https://docs.python.org/2/library/datetime.html\#datetime-objects}{documentação
+para o objeto de datetime no módulo datetime}.
+
+** TODO: Encontre os atributos e métodos necessários para poder
+completar o código abaixo **
+
+\emph{Dica}: Você pode abrir uma nova caixa para testar um pedaço do
+código ou verificar uma variável que seja global. Caso ela esteja dentro
+da função, você também pode usar o comando \texttt{print()} para
+imprimi-la e ajudar no Debug.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}11}]:} \PY{k}{def} \PY{n+nf}{summarise\PYZus{}data}\PY{p}{(}\PY{n}{trip\PYZus{}in}\PY{p}{,} \PY{n}{station\PYZus{}data}\PY{p}{,} \PY{n}{trip\PYZus{}out}\PY{p}{)}\PY{p}{:}
+             \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+         \PY{l+s+sd}{    Esta função recebe informações de viagem e estação e produz um novo}
+         \PY{l+s+sd}{    arquivo de dados com um resumo condensado das principais informações de viagem.Os }
+         \PY{l+s+sd}{    argumentos trip\PYZus{}in e station\PYZus{}data serão listas de arquivos de dados para}
+         \PY{l+s+sd}{    as informações da viagem e da estação enquanto trip\PYZus{}out especifica o local}
+         \PY{l+s+sd}{    para o qual os dados sumarizados serão escritos.}
+         \PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+             \PY{c+c1}{\PYZsh{} gera o dicionário de mapeamento entre estações e cidades}
+             \PY{n}{station\PYZus{}map} \PY{o}{=} \PY{n}{create\PYZus{}station\PYZus{}mapping}\PY{p}{(}\PY{n}{station\PYZus{}data}\PY{p}{)}
+             
+             \PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{n}{trip\PYZus{}out}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{w}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{k}{as} \PY{n}{f\PYZus{}out}\PY{p}{:}
+                 \PY{c+c1}{\PYZsh{} configura o objeto de escrita de csv       }
+                 \PY{n}{out\PYZus{}colnames} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{duration}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{start\PYZus{}date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{start\PYZus{}year}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                                 \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{start\PYZus{}month}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{start\PYZus{}hour}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{weekday}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                                 \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{start\PYZus{}city}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{end\PYZus{}city}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{subscription\PYZus{}type}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}        
+                 \PY{n}{trip\PYZus{}writer} \PY{o}{=} \PY{n}{csv}\PY{o}{.}\PY{n}{DictWriter}\PY{p}{(}\PY{n}{f\PYZus{}out}\PY{p}{,} \PY{n}{fieldnames} \PY{o}{=} \PY{n}{out\PYZus{}colnames}\PY{p}{)}
+                 \PY{n}{trip\PYZus{}writer}\PY{o}{.}\PY{n}{writeheader}\PY{p}{(}\PY{p}{)}
+                 
+                 \PY{k}{for} \PY{n}{data\PYZus{}file} \PY{o+ow}{in} \PY{n}{trip\PYZus{}in}\PY{p}{:}
+                     \PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{n}{data\PYZus{}file}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{k}{as} \PY{n}{f\PYZus{}in}\PY{p}{:}
+                         \PY{c+c1}{\PYZsh{} configura o leitor do csv}
+                         \PY{n}{trip\PYZus{}reader} \PY{o}{=} \PY{n}{csv}\PY{o}{.}\PY{n}{DictReader}\PY{p}{(}\PY{n}{f\PYZus{}in}\PY{p}{)}
+         
+                         \PY{c+c1}{\PYZsh{} processa cada linha lendo uma a uma}
+                         \PY{k}{for} \PY{n}{row} \PY{o+ow}{in} \PY{n}{trip\PYZus{}reader}\PY{p}{:}
+                             \PY{n}{new\PYZus{}point} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+                             
+                             \PY{c+c1}{\PYZsh{} converte a duração de segundos para minutos.}
+                             \PY{c+c1}{\PYZsh{}\PYZsh{}\PYZsh{} TODO: Pergunta 3a: Adicione uma operação matemática       \PYZsh{}\PYZsh{}\PYZsh{}}
+                             \PY{c+c1}{\PYZsh{}\PYZsh{}\PYZsh{} para converter a duração de segundos para minutos.  \PYZsh{}\PYZsh{}\PYZsh{}}
+                             \PY{n}{new\PYZus{}point}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{duration}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n+nb}{int}\PY{p}{(}\PY{n}{row}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Duration}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)} \PY{o}{/} \PY{l+m+mi}{60}
+                             
+                             \PY{c+c1}{\PYZsh{} reformate strings com datas para múltiplas colunas}
+                             \PY{c+c1}{\PYZsh{}\PYZsh{}\PYZsh{} TODO: Pergunta 3b: Preencha os \PYZus{}\PYZus{} abaixo para criar os        \PYZsh{}\PYZsh{}\PYZsh{}}
+                             \PY{c+c1}{\PYZsh{}\PYZsh{}\PYZsh{} campos experados nas colunas (olhe pelo nome da coluna) \PYZsh{}\PYZsh{}\PYZsh{}}
+                             \PY{n}{trip\PYZus{}date} \PY{o}{=} \PY{n}{datetime}\PY{o}{.}\PY{n}{strptime}\PY{p}{(}\PY{n}{row}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Start Date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZpc{}}\PY{l+s+s1}{m/}\PY{l+s+si}{\PYZpc{}d}\PY{l+s+s1}{/}\PY{l+s+s1}{\PYZpc{}}\PY{l+s+s1}{Y }\PY{l+s+s1}{\PYZpc{}}\PY{l+s+s1}{H:}\PY{l+s+s1}{\PYZpc{}}\PY{l+s+s1}{M}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+                             \PY{n}{new\PYZus{}point}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{start\PYZus{}date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}  \PY{o}{=} \PY{n}{trip\PYZus{}date}\PY{o}{.}\PY{n}{date}\PY{p}{(}\PY{p}{)}
+                             \PY{n}{new\PYZus{}point}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{start\PYZus{}year}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}  \PY{o}{=} \PY{n}{trip\PYZus{}date}\PY{o}{.}\PY{n}{year}
+                             \PY{n}{new\PYZus{}point}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{start\PYZus{}month}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{trip\PYZus{}date}\PY{o}{.}\PY{n}{month}
+                             \PY{n}{new\PYZus{}point}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{start\PYZus{}hour}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}  \PY{o}{=} \PY{n}{trip\PYZus{}date}\PY{o}{.}\PY{n}{hour}
+                             \PY{n}{new\PYZus{}point}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{weekday}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}     \PY{o}{=} \PY{n}{trip\PYZus{}date}\PY{o}{.}\PY{n}{weekday}\PY{p}{(}\PY{p}{)}
+                             
+                             \PY{c+c1}{\PYZsh{} TODO: mapeia o terminal de inicio e fim com o a cidade de inicio e fim}
+                             \PY{n}{new\PYZus{}point}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{start\PYZus{}city}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{station\PYZus{}map}\PY{p}{[}\PY{n}{row}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Start Terminal}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}
+                             \PY{n}{new\PYZus{}point}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{end\PYZus{}city}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{station\PYZus{}map}\PY{p}{[}\PY{n}{row}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{End Terminal}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}
+                             
+                             \PY{c+c1}{\PYZsh{} TODO: existem dois nomes diferentes para o mesmo campo. Trate cada um deles.}
+                             \PY{k}{if} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Subscription Type}\PY{l+s+s1}{\PYZsq{}} \PY{o+ow}{in} \PY{n}{row}\PY{p}{:}
+                                 \PY{n}{new\PYZus{}point}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{subscription\PYZus{}type}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{row}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Subscription Type}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+                             \PY{k}{else}\PY{p}{:}
+                                 \PY{n}{new\PYZus{}point}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{subscription\PYZus{}type}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{row}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Subscriber Type}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+         
+                             \PY{c+c1}{\PYZsh{} escreve a informação processada para o arquivo de saída.}
+                             \PY{n}{trip\PYZus{}writer}\PY{o}{.}\PY{n}{writerow}\PY{p}{(}\PY{n}{new\PYZus{}point}\PY{p}{)}
+\end{Verbatim}
+
+
+    \section{Pergunta 3:}\label{pergunta-3}
+
+Execute o bloco de código abaixo para chamar a função
+\texttt{summarise\_data()} que você terminou na célula acima. Ela usará
+os dados contidos nos arquivos listados nas variáveis \texttt{trip\_in}
+e \texttt{station\_data} e escreverá um novo arquivo no local
+especificado na variável \texttt{trip\_out}. Se você executou a limpeza
+de dados corretamente, o bloco de código abaixo imprimirá as primeiras
+linhas do DataFrame e uma mensagem que verificando se as contagens de
+dados estão corretas.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}12}]:} \PY{c+c1}{\PYZsh{} processe os dados usando a função criada acima}
+         \PY{n}{station\PYZus{}data} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{201402\PYZus{}station\PYZus{}data.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+         \PY{n}{trip\PYZus{}in} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{201309\PYZus{}trip\PYZus{}data.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+         \PY{n}{trip\PYZus{}out} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{201309\PYZus{}trip\PYZus{}summary.csv}\PY{l+s+s1}{\PYZsq{}}
+         \PY{n}{summarise\PYZus{}data}\PY{p}{(}\PY{n}{trip\PYZus{}in}\PY{p}{,} \PY{n}{station\PYZus{}data}\PY{p}{,} \PY{n}{trip\PYZus{}out}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}13}]:} \PY{c+c1}{\PYZsh{} Carregue os dados novamente mostrando os dados}
+         \PY{c+c1}{\PYZsh{}\PYZsh{} TODO: Complete o código para leitura dos dados no arquivo criado na função acima}
+         \PY{n}{sample\PYZus{}data} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{201309\PYZus{}trip\PYZus{}summary.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{display}\PY{p}{(}\PY{n}{sample\PYZus{}data}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    
+    \begin{verbatim}
+   duration  start_date  start_year  start_month  start_hour  weekday  \
+0  1.050000  2013-08-29        2013            8          14        3   
+1  1.166667  2013-08-29        2013            8          14        3   
+2  1.183333  2013-08-29        2013            8          10        3   
+3  1.283333  2013-08-29        2013            8          11        3   
+4  1.383333  2013-08-29        2013            8          12        3   
+
+      start_city       end_city subscription_type  
+0  San Francisco  San Francisco        Subscriber  
+1       San Jose       San Jose        Subscriber  
+2  Mountain View  Mountain View        Subscriber  
+3       San Jose       San Jose        Subscriber  
+4  San Francisco  San Francisco        Subscriber  
+    \end{verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}14}]:} \PY{c+c1}{\PYZsh{} Verifica o DataFrame contando o número de pontos de dados com as características de }
+         \PY{c+c1}{\PYZsh{} tempo corretas.}
+         \PY{n}{question\PYZus{}3}\PY{p}{(}\PY{n}{sample\PYZus{}data}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Todas as contagens estão como esperadas.
+
+    \end{Verbatim}
+
+    \begin{quote}
+\textbf{Dica}: se você salvar um notebook do jupyter, a saída dos blocos
+de código em execução também será salva. No entanto, o estado do seu
+arquivo será reiniciado uma vez que uma nova sessão será iniciada.
+Certifique-se de que você execute todos os blocos de código necessários
+da sessão anterior para restabelecer variáveis e funções antes de
+continuar de onde você deixou na última vez.
+\end{quote}
+
+    \subsection{Análise Exploratória de
+Dados}\label{anuxe1lise-exploratuxf3ria-de-dados}
+
+Agora que você tem alguns dados salvos em um arquivo, vejamos algumas
+tendências iniciais nos dados. Algum código já foi escrito para você no
+script \url{babs_visualizations.py} para ajudar a resumir e visualizar
+os dados; Isso foi importado como as funções \texttt{usage\_stats()} e
+\texttt{usage\_plot()}. Nesta seção, vamos percorrer algumas das coisas
+que você pode fazer com as funções, e você usará as funções para você
+mesmo na última parte do projeto. Primeiro, execute a seguinte célula
+para carregar os dados. Depois preencha a célula abaixo com os comandos
+para verificar os dados básicos sobre os dados.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}15}]:} \PY{n}{trip\PYZus{}data} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{201309\PYZus{}trip\PYZus{}summary.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}19}]:} \PY{c+c1}{\PYZsh{} TODO: preencha os campos com os dados de acordo com o print}
+         \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Existem }\PY{l+s+si}{\PYZob{}:d\PYZcb{}}\PY{l+s+s1}{ pontos no conjunto de dados}\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n}{trip\PYZus{}data}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+         \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{A duração média das viagens foi de }\PY{l+s+si}{\PYZob{}:.2f\PYZcb{}}\PY{l+s+s1}{ minutos}\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n}{trip\PYZus{}data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{duration}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{A mediana das durações das viagens foi de }\PY{l+s+si}{\PYZob{}:.2f\PYZcb{}}\PY{l+s+s1}{ minutos}\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n}{trip\PYZus{}data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{duration}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{median}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         \PY{c+c1}{\PYZsh{} TODO: verificando os quartis}
+         \PY{n}{duration\PYZus{}qtiles} \PY{o}{=} \PY{n}{trip\PYZus{}data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{duration}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{quantile}\PY{p}{(}\PY{p}{[}\PY{o}{.}\PY{l+m+mi}{25}\PY{p}{,} \PY{o}{.}\PY{l+m+mi}{5}\PY{p}{,} \PY{o}{.}\PY{l+m+mi}{75}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{as\PYZus{}matrix}\PY{p}{(}\PY{p}{)}
+         \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{25}\PY{l+s+si}{\PYZpc{} d}\PY{l+s+s1}{as viagens foram mais curtas do que }\PY{l+s+si}{\PYZob{}:.2f\PYZcb{}}\PY{l+s+s1}{ minutos}\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n}{duration\PYZus{}qtiles}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+         \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{25}\PY{l+s+si}{\PYZpc{} d}\PY{l+s+s1}{as viagens foram mais compridas do que }\PY{l+s+si}{\PYZob{}:.2f\PYZcb{}}\PY{l+s+s1}{ minutos}\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n}{duration\PYZus{}qtiles}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Existem 27345 pontos no conjunto de dados
+A duração média das viagens foi de 27.60 minutos
+A mediana das durações das viagens foi de 10.72 minutos
+25\% das viagens foram mais curtas do que 6.82 minutos
+25\% das viagens foram mais compridas do que 17.28 minutos
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}20}]:} \PY{c+c1}{\PYZsh{} execute este campo para verificar os seu processamento acima.}
+         \PY{n}{usage\PYZus{}stats}\PY{p}{(}\PY{n}{trip\PYZus{}data}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Existem 27345 pontos no conjunto de dados
+A duração média das viagens foi de 27.60 minutos
+A mediana das durações das viagens foi de 10.72 minutos
+25\% das viagens foram mais curtas do que 6.82 minutos
+25\% das viagens foram mais compridas do que 17.28 minutos
+
+    \end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}20}]:} array([  6.81666667,  10.71666667,  17.28333333])
+\end{Verbatim}
+            
+    Você deve ver que há mais de 27.000 viagens no primeiro mês e que a
+duração média da viagem é maior do que a duração mediana da viagem (o
+ponto em que 50\% das viagens são mais curtas e 50\% são mais longas).
+Na verdade, a média é maior que as durações de 75\% das viagens mais
+curtas. Isso será interessante para ver mais adiante.
+
+Vamos começar a ver como essas viagens são divididas por tipo de
+inscrição. Uma maneira fácil de construir uma intuição sobre os dados é
+traçá-los.
+
+Lembre-se que o Pandas possui maneiras de plotar os gráficos diretamente
+de um DataFrame. Para cada tipo de dados/análises se pode usar um tipo
+diferente de gráfico mais apropriado para a análise que se está fazendo.
+
+Na caixa abaixo, faça um gráfico de viagens x tipo de subscrição do tipo
+barras.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}26}]:} \PY{c+c1}{\PYZsh{} TODO: plote um gráfico de barras que mostre quantidade de viagens por subscription\PYZus{}type}
+         \PY{c+c1}{\PYZsh{} lembrando que quando o comando .plot é usado, se pode escolher o tipo de gráfico usando }
+         \PY{c+c1}{\PYZsh{} o parâmetro kind. Ex: plot(kind=\PYZsq{}bar\PYZsq{})}
+         \PY{n}{trip\PYZus{}data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{subscription\PYZus{}type}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{value\PYZus{}counts}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{kind} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bar}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_30_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Para que você possa conferir se os seus gráficos estão corretos,
+usaremos a função \texttt{use\_plot()}. O segundo argumento da função
+nos permite contar as viagens em uma variável selecionada, exibindo as
+informações em um gráfico. A expressão abaixo mostrará como deve ter
+ficado o seu gráfico acima.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}27}]:} \PY{c+c1}{\PYZsh{} como o seu gráfico deve ficar. Descomente a linha abaixo caso queira rodar este comando}
+         \PY{n}{usage\PYZus{}plot}\PY{p}{(}\PY{n}{trip\PYZus{}data}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{subscription\PYZus{}type}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_32_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{quote}
+\emph{Nota}: Perceba que provavelmente o seu gráfico não ficou
+exatamente igual, principalmente pelo título e pelo nome dos eixos.
+Lembre-se, estes são detalhes mas fazem toda a diferença quando você for
+apresentar os gráficos que você analisou. Neste Nanodegree não focaremos
+nestas questões, mas tenha em mente que ter os gráficos acertados é de
+extrema importância.
+\end{quote}
+
+    Parece que existe 50\% mais viagens feitas por assinantes (subscribers)
+no primeiro mês do que outro tipos de consumidores. Vamos tentar uma
+outra variável. Como é a distribuição da duração das viagens (trip
+duration)?
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}29}]:} \PY{c+c1}{\PYZsh{} TODO: Faça um gráfico baseado nas durações}
+         \PY{n}{trip\PYZus{}data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{duration}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{hist}\PY{p}{(}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_35_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}31}]:} \PY{c+c1}{\PYZsh{} rode este comando abaixo caso esteja em dúvida quanto ao resultado esperado}
+         \PY{n}{usage\PYZus{}plot}\PY{p}{(}\PY{n}{trip\PYZus{}data}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{duration}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_36_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Parece muito estranho, não é? Dê uma olhada nos valores de duração no
+eixo x. A maioria dos passeios deve ser de 30 minutos ou menos, uma vez
+que há taxas de excesso de tempo extra em uma única viagem. A primeira
+barra abrange durações de até 1000 minutos, ou mais de 16 horas. Com
+base nas estatísticas que obtivemos do \texttt{use\_stats()}, deveríamos
+ter esperado algumas viagens com durações muito longas que levem a média
+a ser muito superior à mediana: o gráfico mostra isso de forma
+dramática, mas inútil.
+
+Ao explorar os dados, muitas vezes você precisará trabalhar com os
+parâmetros da função de visualização para facilitar a compreensão dos
+dados. É aqui que os filtros vão ajudar você. Comecemos por limitar as
+viagens de menos de 60 minutos.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}32}]:} \PY{c+c1}{\PYZsh{} TODO: faça um gráfico de barras para os dados com duração inferior a 60 minutos.}
+         \PY{n}{trip\PYZus{}data}\PY{o}{.}\PY{n}{query}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{duration \PYZlt{} 60}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{duration}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{hist}\PY{p}{(}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_38_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}33}]:} \PY{c+c1}{\PYZsh{} descomente a linha abaixo para verificar o gráfico esperado.}
+         \PY{n}{usage\PYZus{}plot}\PY{p}{(}\PY{n}{trip\PYZus{}data}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{duration}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{duration \PYZlt{} 60}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_39_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Isso está bem melhor! Você pode ver que a maioria das viagens têm menos
+de 30 minutos de duração, mas que você pode fazer mais para melhorar a
+apresentação. Uma vez que a duração mínima não é 0, a barra da esquerda
+está ligeiramente acima de 0. Nós queremos saber onde existe um limite
+perto dos 30 minutos, então ficará mais agradável se tivermos tamanhos
+de intervalos (bin sizes) e limites dos intervalos que correspondam a
+alguns minutos.
+
+Felizmente, o Pandas e o Matplotlib te dão a opção de resolver ester
+problemas. Uma das maneiras de fazê-lo é definindo qual o intervalo no
+eixo x (parâmetro range) e quantos intervalos desejamos (bins).
+
+No campo abaixo, faça o ajuste do gráfico para que os limites das barras
+se encontrem nas extremidades e que as barras tenham tamanho 5 (0, 5,
+10, 15, etc). Se precisar, use a
+\href{http://matplotlib.org/api/_as_gen/matplotlib.axes.Axes.hist.html\#matplotlib.axes.Axes.hist}{documentação}.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}41}]:} \PY{c+c1}{\PYZsh{} faça o gráfico ajustado que começará no 0 e terá o bin size de 5}
+         \PY{n}{trip\PYZus{}data}\PY{o}{.}\PY{n}{query}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{duration \PYZlt{} 60}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{duration}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{hist}\PY{p}{(}\PY{n+nb}{range} \PY{o}{=} \PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{60}\PY{p}{)}\PY{p}{,} \PY{n}{bins} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{61}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_41_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}38}]:} \PY{c+c1}{\PYZsh{} rode esta linha para verificar como deve ficar o seu gráfico}
+         \PY{n}{usage\PYZus{}plot}\PY{p}{(}\PY{n}{trip\PYZus{}data}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{duration}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{duration \PYZlt{} 60}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{boundary} \PY{o}{=} \PY{l+m+mi}{0}\PY{p}{,} \PY{n}{bin\PYZus{}width} \PY{o}{=} \PY{l+m+mi}{5}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_42_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Pequenos ajustes como este podem ser pequenos mas fazem toda a diferença
+na entrega de um trabalho de qualidade e com atenção aos detalhes.
+
+    \section{Pergunta 4}\label{pergunta-4}
+
+Analise o histograma do exercicio anterior e responda:
+
+Qual o intervalo de duração com maior quantidade de viagens?
+
+\textbf{Reposta}: Entre 5 e 10 minutos.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}59}]:} \PY{n}{trip\PYZus{}data}\PY{o}{.}\PY{n}{query}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{duration \PYZgt{}= 5 and duration \PYZlt{} 10}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{start\PYZus{}city}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{end\PYZus{}city}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{count}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{sort\PYZus{}values}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{count}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{ascending} \PY{o}{=} \PY{k+kc}{False}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}59}]:}                              duration  start\_date  start\_year  start\_month  \textbackslash{}
+         start\_city    end\_city                                                       
+         San Francisco San Francisco      8110        8110        8110         8110   
+         San Jose      San Jose            672         672         672          672   
+         Mountain View Mountain View       105         105         105          105   
+         Redwood City  Redwood City         66          66          66           66   
+         Palo Alto     Palo Alto            50          50          50           50   
+         
+                                      start\_hour  weekday  subscription\_type  count  
+         start\_city    end\_city                                                      
+         San Francisco San Francisco        8110     8110               8110   8110  
+         San Jose      San Jose              672      672                672    672  
+         Mountain View Mountain View         105      105                105    105  
+         Redwood City  Redwood City           66       66                 66     66  
+         Palo Alto     Palo Alto              50       50                 50     50  
+\end{Verbatim}
+            
+    \section{Pergunta 4.1}\label{pergunta-4.1}
+
+Com base na sua resposta da pergunta anterior, conte quantas viagens
+existem para cada origem e destino desse intervalo de tempo. Monte uma
+tabela que demonstre isso.
+
+Qual origem e destino tem a maior quantidade de viagens? Aproximadamente
+quantas viagens foram feitas nesta faixa de tempo?
+
+\textbf{Reposta}: A origem e destino com a maior quantidade de viagens
+são com origem em San Francisco e destino também em San Francisco com um
+total de 8110 viagens.
+
+    \subsection{Fazendo suas Próprias
+Análises}\label{fazendo-suas-pruxf3prias-anuxe1lises}
+
+Agora que você fez alguma exploração em uma pequena amostra do conjunto
+de dados, é hora de avançar e reunir todos os dados em um único arquivo
+e ver quais tendências você pode encontrar. O código abaixo usará a
+mesma função \texttt{summarise\_data()} para processar dados. Depois de
+executar a célula abaixo, você terá processado todos os dados em um
+único arquivo de dados. Observe que a função não exibirá qualquer saída
+enquanto ele é executado, e isso pode demorar um pouco para ser
+concluído, pois você tem muito mais dados do que a amostra com a qual
+você trabalhou.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}60}]:} \PY{n}{station\PYZus{}data} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{201402\PYZus{}station\PYZus{}data.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                         \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{201408\PYZus{}station\PYZus{}data.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                         \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{201508\PYZus{}station\PYZus{}data.csv}\PY{l+s+s1}{\PYZsq{}} \PY{p}{]}
+         \PY{n}{trip\PYZus{}in} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{201402\PYZus{}trip\PYZus{}data.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{201408\PYZus{}trip\PYZus{}data.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{201508\PYZus{}trip\PYZus{}data.csv}\PY{l+s+s1}{\PYZsq{}} \PY{p}{]}
+         \PY{n}{trip\PYZus{}out} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{babs\PYZus{}y1\PYZus{}y2\PYZus{}summary.csv}\PY{l+s+s1}{\PYZsq{}}
+         
+         \PY{c+c1}{\PYZsh{} Esta função irá ler as informações das estações e das viagens}
+         \PY{c+c1}{\PYZsh{} e escreverá um arquivo processado com o nome trip\PYZus{}out}
+         \PY{n}{summarise\PYZus{}data}\PY{p}{(}\PY{n}{trip\PYZus{}in}\PY{p}{,} \PY{n}{station\PYZus{}data}\PY{p}{,} \PY{n}{trip\PYZus{}out}\PY{p}{)}
+\end{Verbatim}
+
+
+    Já que a função \texttt{summarise\_data()} escreveu um arquivo de saída,
+a célula acima não precisa ser rodada novamente mesmo que este notebook
+seja fechado e uma nova sessão seja criada. Você pode simplesmente ler
+os dados novamente e fazer a exploração deste ponto (não esqueça de
+executar a parte das funções no começo do notebook caso esteja em uma
+nova sessão)
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}2}]:} \PY{n}{trip\PYZus{}data} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{babs\PYZus{}y1\PYZus{}y2\PYZus{}summary.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{display}\PY{p}{(}\PY{n}{trip\PYZus{}data}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    
+    \begin{verbatim}
+   duration  start_date  start_year  start_month  start_hour  weekday  \
+0  1.050000  2013-08-29        2013            8          14        3   
+1  1.166667  2013-08-29        2013            8          14        3   
+2  1.183333  2013-08-29        2013            8          10        3   
+3  1.283333  2013-08-29        2013            8          11        3   
+4  1.383333  2013-08-29        2013            8          12        3   
+
+      start_city       end_city subscription_type  
+0  San Francisco  San Francisco        Subscriber  
+1       San Jose       San Jose        Subscriber  
+2  Mountain View  Mountain View        Subscriber  
+3       San Jose       San Jose        Subscriber  
+4  San Francisco  San Francisco        Subscriber  
+    \end{verbatim}
+
+    
+    \paragraph{Agora é a SUA vez de fazer a exploração do dataset (do
+conjunto de dados)
+completo.}\label{agora-uxe9-a-sua-vez-de-fazer-a-explorauxe7uxe3o-do-dataset-do-conjunto-de-dados-completo.}
+
+Aproveite para fazer filtros nos dados e tentar encontrar padrões nos
+dados.
+
+    Explore algumas variáveis diferentes usando o mesmo racional acima e
+tome nota de algumas tendências que você encontra. Sinta-se livre para
+criar células adicionais se quiser explorar o conjunto de dados de
+outras maneiras ou de várias maneiras.
+
+\begin{quote}
+\textbf{Dica}: para adicionar células adicionais a um notebook, você
+pode usar as opções "Inserir célula acima" (Insert Cell Above) e "Insert
+Cell Below" na barra de menu acima. Há também um ícone na barra de
+ferramentas para adicionar novas células, com ícones adicionais para
+mover as células para cima e para baixo do documento. Por padrão, as
+novas células são do tipo de código; Você também pode especificar o tipo
+de célula (por exemplo, Código ou Markdown) das células selecionadas no
+menu Cell ou no menu dropdown na barra de ferramentas.
+\end{quote}
+
+Um feito com suas explorações, copie as duas visualizações que você
+achou mais interessantes nas células abaixo e responda as seguintes
+perguntas com algumas frases descrevendo o que você encontrou e por que
+você selecionou os números. Certifique-se de que você ajusta o número de
+caixas ou os limites da bandeja para que efetivamente transmitam os
+resultados dos dados. Sinta-se livre para complementar isso com
+quaisquer números adicionais gerados a partir de \texttt{use\_stats()}
+ou coloque visualizações múltiplas para suportar suas observações.
+
+    Para ver alguns outros tipos de gráficos que o matplotlib (padrão do
+Pandas) possui, leia
+\href{https://www.labri.fr/perso/nrougier/teaching/matplotlib/\#other-types-of-plots}{este
+artigo}.
+
+Para entender um pouco mais como e quais gráficos podem ser úteis, leia
+\href{https://www.tableau.com/sites/default/files/media/Whitepapers/which_chart_v6_ptb.pdf}{este
+documento}. Ele lhe dará um pouco de idéia de como mostrar os dados de
+forma mais acertada
+
+    \section{Pergunta 5a}\label{pergunta-5a}
+
+Explore os dados e faça um gráfico que demonstre alguma particularidade
+dos dados:
+
+    \subsubsection{Há crescimento do uso do serviço com o passar do
+tempo?}\label{huxe1-crescimento-do-uso-do-serviuxe7o-com-o-passar-do-tempo}
+
+Abaixo vou tentar analisar se há crescimento do uso do serviço,
+primeiramente, vou verificar qual o range de datas contido na base de
+dados.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}74}]:} \PY{n}{display}\PY{p}{(}\PY{n}{trip\PYZus{}data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{start\PYZus{}date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+         \PY{n}{display}\PY{p}{(}\PY{n}{trip\PYZus{}data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{start\PYZus{}date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    
+    \begin{verbatim}
+'2013-08-29'
+    \end{verbatim}
+
+    
+    
+    \begin{verbatim}
+'2015-08-31'
+    \end{verbatim}
+
+    
+    Como o ano de 2014 é o único ano completo, vou isolar a análise neste
+ano e comparar clientes assinantes e avulsos mês a mês.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}88}]:} \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{16}\PY{p}{,}\PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}
+             
+         \PY{n}{df\PYZus{}customers} \PY{o}{=} \PY{n}{trip\PYZus{}data}\PY{o}{.}\PY{n}{query}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{subscription\PYZus{}type == }\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{Customer}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{ and start\PYZus{}year == 2014}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{start\PYZus{}month}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{duration}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{count}\PY{p}{(}\PY{p}{)}
+         \PY{n}{df\PYZus{}subscriber} \PY{o}{=} \PY{n}{trip\PYZus{}data}\PY{o}{.}\PY{n}{query}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{subscription\PYZus{}type == }\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{Subscriber}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{ and start\PYZus{}year == 2014}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{start\PYZus{}month}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{duration}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{count}\PY{p}{(}\PY{p}{)}
+         
+         \PY{n}{df\PYZus{}customers}\PY{o}{.}\PY{n}{nunique}\PY{p}{(}\PY{p}{)}
+         
+         \PY{n}{index} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{n}{df\PYZus{}customers}\PY{o}{.}\PY{n}{nunique}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+         \PY{n}{width} \PY{o}{=} \PY{l+m+mf}{0.35}
+         
+         \PY{n}{plt}\PY{o}{.}\PY{n}{bar}\PY{p}{(}\PY{n}{index}\PY{p}{,} \PY{n}{df\PYZus{}subscriber}\PY{p}{,} \PY{n}{width}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Subscriber}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{bar}\PY{p}{(}\PY{n}{index} \PY{o}{+} \PY{n}{width}\PY{p}{,} \PY{n}{df\PYZus{}customers}\PY{p}{,} \PY{n}{width}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Customers}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}    
+         
+         \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Meses}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsh{} de Aluguéis}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         
+         \PY{n}{locations} \PY{o}{=} \PY{n}{index} \PY{o}{+} \PY{n}{width} \PY{o}{/} \PY{l+m+mi}{2}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{xticks}\PY{p}{(}\PY{n}{locations}\PY{p}{,} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Jan}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Fev}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Mar}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Abr}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Mai}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Jun}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Jul}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Ago}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Set}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Out}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Nov}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Dez}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+         
+         \PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}\PY{p}{;}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_58_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    O que é interessante na visualização acima? Por que você a selecionou?
+
+\textbf{Answer}: O gráfico acima é interessante pois mostra que a
+demanda tem mostrado uma tendência de crescimento, mas em Fevereiro
+vemos uma queda considerável, assim como Novembro e Dezembro para ambos
+assinantes e clientes avulsos.
+
+    \section{Pergunta 5b}\label{pergunta-5b}
+
+Faça um gráfico que demonstre alguma particularidade dos dados:
+
+    \subsubsection{Existem viagens de uma cidade para a
+outra?}\label{existem-viagens-de-uma-cidade-para-a-outra}
+
+Vou analisar abaixo se existem viagens que ocorrem de uma cidade para a
+outra.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}90}]:} \PY{n}{td\PYZus{}oc} \PY{o}{=} \PY{n}{trip\PYZus{}data}\PY{o}{.}\PY{n}{query}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{start\PYZus{}city != end\PYZus{}city}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{display}\PY{p}{(}\PY{n}{td\PYZus{}oc}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+         \PY{n}{display}\PY{p}{(}\PY{n}{td\PYZus{}oc}\PY{o}{.}\PY{n}{shape}\PY{p}{)}
+\end{Verbatim}
+
+
+    
+    \begin{verbatim}
+        duration  start_date  start_year  start_month  start_hour  weekday  \
+694    30.283333  2013-08-29        2013            8          13        3   
+743   878.300000  2013-08-29        2013            8          15        3   
+1389   73.933333  2013-08-30        2013            8          18        4   
+1436  278.550000  2013-08-30        2013            8          10        4   
+1771   16.950000  2013-08-31        2013            8          15        5   
+
+         start_city       end_city subscription_type  
+694       Palo Alto  Mountain View        Subscriber  
+743   Mountain View      Palo Alto        Subscriber  
+1389  San Francisco   Redwood City        Subscriber  
+1436   Redwood City      Palo Alto          Customer  
+1771      Palo Alto  Mountain View          Customer  
+    \end{verbatim}
+
+    
+    
+    \begin{verbatim}
+(1042, 9)
+    \end{verbatim}
+
+    
+    Podemos ver que existem \textbf{1042} casos de viagens de uma cidade
+para a outra. Vou verificar a distribuição das duração das viagens.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}98}]:} \PY{n}{td\PYZus{}oc}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{duration}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{hist}\PY{p}{(}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_64_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    A distribuição tem uma distorção muito acentuada para a esquerda, vou
+limitar para viagens com menos de 6 horas de duração (360 minutos)
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}99}]:} \PY{n}{td\PYZus{}oc}\PY{o}{.}\PY{n}{query}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{duration \PYZlt{} 360}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{duration}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{hist}\PY{p}{(}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_66_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    A distorção para a esquerda ainda é muito acentuada, pode ser que hajam
+muitas viagens de curta duração que podem ser entre estações próximas
+das froteiras de duas cidades. Vou tentar com viagens com duração entre
+1 e 6 horas.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}101}]:} \PY{n}{td\PYZus{}oc}\PY{o}{.}\PY{n}{query}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{duration \PYZgt{}= 60 and duration \PYZlt{} 360}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{duration}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{hist}\PY{p}{(}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_68_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    O gráfico ainda demonstra uma distorção para a esquerda, mas desta vez
+menos acentuada. Vou compara neste mesmo cenário o tipo de usuário do
+serviço.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}62}]:} \PY{n}{td\PYZus{}oc}\PY{o}{.}\PY{n}{query}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{duration \PYZgt{}= 60 and duration \PYZlt{} 360}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{subscription\PYZus{}type}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{value\PYZus{}counts}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{kind} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bar}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_70_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Vemos que a grande maioria as viagens são feitas por clientes não
+assinantes
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}89}]:} \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+             
+         \PY{n}{td\PYZus{}oc\PYZus{}cust} \PY{o}{=} \PY{n}{td\PYZus{}oc}\PY{o}{.}\PY{n}{query}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{subscription\PYZus{}type == }\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{Customer}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{weekday}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{duration}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{count}\PY{p}{(}\PY{p}{)}
+         \PY{n}{td\PYZus{}oc\PYZus{}subs} \PY{o}{=} \PY{n}{td\PYZus{}oc}\PY{o}{.}\PY{n}{query}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{subscription\PYZus{}type == }\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{Subscriber}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{weekday}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{duration}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{count}\PY{p}{(}\PY{p}{)}
+         
+         \PY{n}{index} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{7}\PY{p}{)}
+         \PY{n}{width} \PY{o}{=} \PY{l+m+mf}{0.35}
+         
+         \PY{n}{plt}\PY{o}{.}\PY{n}{bar}\PY{p}{(}\PY{n}{index}\PY{p}{,} \PY{n}{td\PYZus{}oc\PYZus{}cust}\PY{p}{,} \PY{n}{width}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Subscriber}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{bar}\PY{p}{(}\PY{n}{index} \PY{o}{+} \PY{n}{width}\PY{p}{,} \PY{n}{td\PYZus{}oc\PYZus{}subs}\PY{p}{,} \PY{n}{width}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Customers}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}    
+         
+         \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Dias da semana}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsh{} de Aluguéis}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         
+         \PY{n}{locations} \PY{o}{=} \PY{n}{index} \PY{o}{+} \PY{n}{width} \PY{o}{/} \PY{l+m+mi}{2}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{xticks}\PY{p}{(}\PY{n}{locations}\PY{p}{,} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Seg}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Ter}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Qua}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Qui}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Sex}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Sab}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Dom}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+         
+         \PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}\PY{p}{;}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_72_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}17}]:} \PY{n}{td\PYZus{}oc}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{weekday}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{o}{.}\PY{n}{count}\PY{p}{(}\PY{p}{)}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{duration}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{kind} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bar}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_73_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{c+c1}{\PYZsh{} Gráfico Final 2}
+\end{Verbatim}
+
+
+    O que é interessante na visualização acima? Por que você a selecionou?
+
+\textbf{Answer}: Escreva a sua resposta aqui
+
+    \subsection{Conclusões}\label{conclusuxf5es}
+
+Parabéns pela conclusão do projeto! Esta é apenas uma amostragem do
+processo de análise de dados: gerando perguntas, limpando e explorando
+os dados. Normalmente, neste momento no processo de análise de dados,
+você pode querer tirar conclusões realizando um teste estatístico ou
+ajustando os dados a um modelo para fazer previsões. Há também muitas
+análises potenciais que podem ser realizadas se evoluirmos o código
+fornecido. Em vez de apenas olhar para o número de viagens no eixo de
+resultados, você pode ver quais recursos afetam coisas como a duração da
+viagem. Nós também não analisamos como os dados meteorológicos se
+encaixam no uso de bicicletas.
+
+    \section{Pergunta 6}\label{pergunta-6}
+
+Pense em um tópico ou campo de interesse onde você gostaria de poder
+aplicar as técnicas da ciência dos dados. O que você gostaria de
+aprender com o assunto escolhido?
+
+\textbf{Responda}: Substitua este texto pela sua resposta!
+
+    \begin{quote}
+\textbf{Dica}: se quisermos compartilhar os resultados de nossa análise
+com os outros, existe uma outra opção que não é enviar o arquivo jupyter
+Notebook (.ipynb). Também podemos exportar a saída do Notebook de uma
+forma que pode ser aberto mesmo para aqueles sem o Python instalado. No
+menu \textbf{File} na parte superior esquerda, vá para o submenu
+\textbf{Download as}. Você pode então escolher um formato diferente que
+pode ser visto de forma mais geral, como HTML (.html) ou PDF (.pdf).
+Você pode precisar de pacotes adicionais ou software para executar essas
+exportações.
+\end{quote}
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+    \end{document}
