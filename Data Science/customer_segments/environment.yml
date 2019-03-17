@@ -1,7 +1,9 @@
 name: CustomerSegments_P2_7
 channels:
+  - conda-forge
   - defaults
 dependencies:
+  - autopep8=1.4.3=py27_0
   - backports=1.0=py27_1
   - backports.functools_lru_cache=1.5=py27_1
   - backports.shutil_get_terminal_size=1.0.0=py27_2
@@ -10,7 +12,7 @@ dependencies:
   - blas=1.0=mkl
   - bleach=3.1.0=py27_0
   - ca-certificates=2019.1.23=0
-  - certifi=2018.11.29=py27_0
+  - certifi=2019.3.9=py27_0
   - colorama=0.4.1=py27_0
   - configparser=3.7.1=py27_0
   - cycler=0.10.0=py27h59acbbf_0
@@ -34,11 +36,20 @@ dependencies:
   - jupyter=1.0.0=py27_7
   - jupyter_client=5.2.4=py27_0
   - jupyter_console=5.2.0=py27_1
+  - jupyter_contrib_core=0.3.3=py_2
+  - jupyter_contrib_nbextensions=0.5.1=py27_0
   - jupyter_core=4.4.0=py27_0
+  - jupyter_highlight_selected_word=0.2.0=py27_1000
+  - jupyter_latex_envs=1.4.4=py27_1000
+  - jupyter_nbextensions_configurator=0.4.1=py27_0
   - kiwisolver=1.0.1=py27hc56fc5f_0
+  - libiconv=1.15=h0c8e037_1004
   - libpng=1.6.36=h7a46e7a_0
   - libsodium=1.0.16=h8b3e59e_0
   - libtiff=4.0.10=h1c3b264_2
+  - libxml2=2.9.8=h00b1425_1005
+  - libxslt=1.1.32=h803002f_1002
+  - lxml=4.3.2=py27h803002f_0
   - m2w64-gcc-libgfortran=5.3.0=6
   - m2w64-gcc-libs=5.3.0=7
   - m2w64-gcc-libs-core=5.3.0=7
@@ -65,6 +76,7 @@ dependencies:
   - pip=19.0.3=py27_0
   - prometheus_client=0.6.0=py27_0
   - prompt_toolkit=1.0.15=py27h3a8ec6a_0
+  - pycodestyle=2.5.0=py27_0
   - pygments=2.3.1=py27_0
   - pyparsing=2.3.1=py27_0
   - pyqt=5.6.0=py27h6e61f57_6
@@ -72,6 +84,7 @@ dependencies:
   - python-dateutil=2.8.0=py27_0
   - pytz=2018.9=py27_0
   - pywinpty=0.5.5=py27_1000
+  - pyyaml=5.1=py27h0c8e037_0
   - pyzmq=18.0.0=py27hc56fc5f_0
   - qt=5.6.2=vc9hc26998b_12
   - qtconsole=4.4.3=py27_0
@@ -102,6 +115,8 @@ dependencies:
   - wincertstore=0.2=py27hf04cefb_0
   - winpty=0.4.3=4
   - xz=5.2.4=h3cc03e0_4
+  - yaml=0.1.7=h0c8e037_1001
+  - yapf=0.26.0=py27_0
   - zeromq=4.3.1=h2880e7c_3
   - zlib=1.2.11=h3cc03e0_3
   - zstd=1.3.7=h1b0e4d7_0
