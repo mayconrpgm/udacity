@@ -21,7 +21,7 @@ pf <- read.csv('https://s3.amazonaws.com/udacity-hosted-downloads/ud651/pseudo_f
 Notes:
 
 ```{r Histogram of Users\' Birthdays}
-install.packages('ggplot2')
+#install.packages('ggplot2')
 library(ggplot2)
 
 qplot(x = dob_day, data = pf) + 
@@ -172,7 +172,8 @@ Because there are extreme values that are pulling the mean to a higher value
 Notes:
 
 ```{r Tenure}
-
+qplot(x = tenure, data = pf, binwidth = 30,
+      color = I('black'), fill = I('#099DD9'))
 ```
 
 ***
@@ -180,7 +181,9 @@ Notes:
 #### How would you create a histogram of tenure by year?
 
 ```{r Tenure Histogram by Year}
-
+qplot(x = tenure / 365, data = pf, binwidth = .25,
+      color = I('black'), fill = I('#099DD9')) + 
+  scale_x_continuous(breaks = seq(1, 7, 1), limits = c(0, 7))
 ```
 
 ***
@@ -189,7 +192,11 @@ Notes:
 Notes:
 
 ```{r Labeling Plots}
-
+qplot(x = tenure / 365, data = pf, binwidth = .25,
+      xlab = 'Number of years using Facebook',
+      ylab = 'Number of users in sample',
+      color = I('black'), fill = I('#099DD9')) + 
+  scale_x_continuous(breaks = seq(1, 7, 1), limits = c(0, 7))
 ```
 
 ***
@@ -198,13 +205,27 @@ Notes:
 Notes:
 
 ```{r User Ages}
-
+qplot(x = age, data = pf, binwidth = 1,
+      xlab = 'Age',
+      ylab = 'Number of users in sample',
+      color = I('black'), fill = I('#099DD9')) + 
+  scale_x_continuous(breaks = seq(1, 113, 1))
 ```
 
 #### What do you notice?
 Response:
-
+Most of the users are young adults, there's a strange distribution of old users, might be people filling the birth date with fake values.
 ***
+```{r}
+qplot(x = dob_day, data = subset(pf, age > 100), binwidth = 1,
+      xlab = 'Age',
+      ylab = 'Number of users in sample',
+      color = I('black'), fill = I('#099DD9')) + 
+  scale_x_continuous(breaks = 1:31) + 
+  facet_wrap(~dob_month, ncol = 3)
+```
+Most of those users with age higher than 100 are registered as born on 1st of January, which enforces the possibility of fake birth dates
+
 
 ### The Spread of Memes
 Notes:
@@ -225,8 +246,38 @@ Notes:
 Notes:
 
 ```{r Add a Scaling Layer}
+#install.packages('gridExtra')
+library(gridExtra) 
 
+p1 <- qplot(x = friend_count, data = pf, 
+           xlab = 'Friend Count', color = I('black'), fill = I('#099DD9'))
+p2 <- qplot(x = friend_count, data = pf,
+           xlab = 'Friend Count (Log10)', color = I('black'), fill = I('#099DD9')) + 
+  scale_x_log10()
+p3 <- qplot(x = friend_count, data = pf,
+           xlab = 'Friend Count (sqrt)', color = I('black'), fill = I('#099DD9')) +
+  scale_x_sqrt()
+
+grid.arrange(p1, p2, p3, ncol = 1)
 ```
+```{r}
+p1 <- qplot(x = friend_count, data = pf, 
+           xlab = 'Friend Count', color = I('black'), fill = I('#099DD9'))
+p2 <- qplot(x = log10(friend_count + 1), data = pf,
+           xlab = 'Friend Count (Log10)', color = I('black'), fill = I('#099DD9'))
+p3 <- qplot(x = sqrt(friend_count), data = pf,
+           xlab = 'Friend Count (sqrt)', color = I('black'), fill = I('#099DD9'))
+
+grid.arrange(p1, p2, p3, ncol = 1)
+```
+```{r}
+p1 <- ggplot(aes(x = friend_count), data = pf) + geom_histogram() 
+p2 <- p1 + scale_x_log10()
+p3 <- p1 + scale_x_sqrt()
+
+grid.arrange(p1, p2, p3, ncol = 1)
+```
+
 
 ***
 
@@ -234,7 +285,12 @@ Notes:
 ### Frequency Polygons
 
 ```{r Frequency Polygons}
-
+qplot(x = friend_count, y = ..count../sum(..count..),
+      data = subset(pf, !is.na(gender)), 
+      xlab = 'Friend Count',
+      ylab = 'Percentage of users with that friend count',
+      binwidth = 10, geom = 'freqpoly', color = gender) +
+  scale_x_continuous(limits = c(0, 1000), breaks = seq(0, 1000, 50))
 ```
 
 ***
@@ -243,7 +299,17 @@ Notes:
 Notes:
 
 ```{r Likes on the Web}
+summary(pf$www_likes)
 
+qplot(x = www_likes, 
+      data = subset(pf, !is.na(gender)), 
+      xlab = 'Number of likes',
+      ylab = 'Percentage of users with that number of likes',
+      geom = 'freqpoly', color = gender) +
+  scale_x_log10()
+```
+```{r}
+by(pf$www_likes, pf$gender, sum)
 ```
 
 
@@ -253,13 +319,19 @@ Notes:
 Notes:
 
 ```{r Box Plots}
-
+qplot(x = gender, y = friend_count,
+  data = subset(pf, !is.na(gender)), geom = 'boxplot')
 ```
 
 #### Adjust the code to focus on users who have friend counts between 0 and 1000.
 
 ```{r}
+#qplot(x = gender, y = friend_count, ylim = c(0, 1000),
+#  data = subset(pf, !is.na(gender)), geom = 'boxplot')
 
+qplot(x = gender, y = friend_count,
+  data = subset(pf, !is.na(gender)), geom = 'boxplot') +
+  coord_cartesian(ylim = c(0, 1000))
 ```
 
 ***
@@ -268,7 +340,11 @@ Notes:
 Notes:
 
 ```{r Box Plots, Quartiles, and Friendships}
+qplot(x = gender, y = friend_count,
+  data = subset(pf, !is.na(gender)), geom = 'boxplot') +
+  coord_cartesian(ylim = c(0, 250))
 
+by(pf$friend_count, pf$gender, summary)
 ```
 
 #### On average, who initiated more friendships in our sample: men or women?
@@ -276,7 +352,11 @@ Response:
 #### Write about some ways that you can verify your answer.
 Response:
 ```{r Friend Requests by Gender}
+qplot(x = gender, y = friendships_initiated,
+  data = subset(pf, !is.na(gender)), geom = 'boxplot') +
+  coord_cartesian(ylim = c(0, 150))
 
+by(pf$friendships_initiated, pf$gender, summary)
 ```
 
 Response:
@@ -287,7 +367,17 @@ Response:
 Notes:
 
 ```{r Getting Logical}
+summary(pf$mobile_likes)
 
+summary(pf$mobile_likes > 0)
+
+pf$mobile_check_in <- NA
+pf$mobile_check_in <- ifelse(pf$mobile_likes > 0, 1, 0)
+pf$mobile_check_in <- factor(pf$mobile_check_in)
+
+summary(pf$mobile_check_in)
+
+sum(pf$mobile_check_in == 1) / length(pf$mobile_check_in)
 ```
 
 Response:
