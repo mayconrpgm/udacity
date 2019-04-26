@@ -152,7 +152,7 @@ ggplot(aes(x = age, y = friend_count),
 Notes:
 
 ```{r Friending Rate}
-
+with(subset(pf, tenure > 0), summary(friend_count / tenure))
 ```
 
 ***
@@ -161,11 +161,15 @@ Notes:
 Notes:
 
 What is the median friend rate?
+0.2205
 
 What is the maximum friend rate?
+417.0000
 
 ```{r Friendships Initiated}
-
+ggplot(aes(x = tenure, y = friendships_initiated / tenure),
+       data = subset(pf, !is.na(year_joined.bucket) & tenure > 0)) + 
+  geom_line(aes(color = year_joined.bucket), stat = 'summary', fun.y = mean) 
 ```
 
 ***
@@ -174,32 +178,44 @@ What is the maximum friend rate?
 Notes:
 
 ```{r Bias-Variance Tradeoff Revisited}
+#install.packages('gridExtra')
+library(gridExtra)
 
-ggplot(aes(x = tenure, y = friendships_initiated / tenure),
+p1 <- ggplot(aes(x = tenure, y = friendships_initiated / tenure),
        data = subset(pf, tenure >= 1)) +
   geom_line(aes(color = year_joined.bucket),
             stat = 'summary',
             fun.y = mean)
 
-ggplot(aes(x = 7 * round(tenure / 7), y = friendships_initiated / tenure),
+p2 <- ggplot(aes(x = 7 * round(tenure / 7), y = friendships_initiated / tenure),
        data = subset(pf, tenure > 0)) +
   geom_line(aes(color = year_joined.bucket),
             stat = "summary",
             fun.y = mean)
 
-ggplot(aes(x = 30 * round(tenure / 30), y = friendships_initiated / tenure),
+p3 <- ggplot(aes(x = 30 * round(tenure / 30), y = friendships_initiated / tenure),
        data = subset(pf, tenure > 0)) +
   geom_line(aes(color = year_joined.bucket),
             stat = "summary",
             fun.y = mean)
 
-ggplot(aes(x = 90 * round(tenure / 90), y = friendships_initiated / tenure),
+p4 <- ggplot(aes(x = 90 * round(tenure / 90), y = friendships_initiated / tenure),
        data = subset(pf, tenure > 0)) +
   geom_line(aes(color = year_joined.bucket),
             stat = "summary",
             fun.y = mean)
 
+grid.arrange(p1, p2, p3, p4, ncol = 1)
 ```
+
+### Using geom_smooth
+
+```{r}
+ggplot(aes(x = tenure, y = friendships_initiated / tenure),
+       data = subset(pf, tenure > 0)) +
+  geom_smooth(aes(color = year_joined.bucket))
+```
+
 
 ***
 
