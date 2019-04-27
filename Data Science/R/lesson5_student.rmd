@@ -70,7 +70,7 @@ Notes:
 Notes:
 
 ```{r}
-install.packages('reshape2')
+#install.packages('reshape2')
 library(reshape2)
 
 pf.fc_by_age_gender.wide <- dcast(pf.fc_by_age_gender, 
@@ -233,8 +233,19 @@ Notes:
 Notes:
 
 ```{r Histograms Revisited}
+yo <- read.csv('yogurt.csv')
 
+str(yo)
+
+yo$id <- factor(yo$id)
+
+str(yo)
+
+ggplot(aes(x = price), data = yo) + 
+  geom_histogram(binwidth = 10)
 ```
+
+There are several empty spots in the histogram, prices are not continous. After adjusting the bin width, the histogram became distorted to the left but it is very biased.
 
 ***
 
@@ -242,7 +253,16 @@ Notes:
 Notes:
 
 ```{r Number of Purchases}
+summary(yo$price)
+length(unique(yo$price))
+table(yo$price)
 
+#?transform
+names(yo)
+yo <- transform(yo, all.purchases = (strawberry + blueberry + pina.colada + plain + mixed.berry))
+
+ggplot(aes(x = all.purchases), data = yo) + 
+  geom_histogram(binwidth = 1)
 ```
 
 ***
@@ -251,7 +271,8 @@ Notes:
 Notes:
 
 ```{r Prices over Time}
-
+ggplot(aes(x = time, y = price), data = yo) + 
+  geom_jitter(alpha = 0.25, shape = 21, fill = I('#F79420'))
 ```
 
 ***
@@ -264,7 +285,25 @@ Notes:
 ### Looking at Samples of Households
 
 ```{r Looking at Sample of Households}
+set.seed(4230)
 
+sample.ids <- sample(levels(yo$id), 16)
+
+ggplot(aes(x = time, y = price), data = subset(yo, id %in% sample.ids)) + 
+  facet_wrap(~ id) +
+  geom_line() + 
+  geom_point(aes(size = all.purchases), pch = 1)
+  
+```
+```{r}
+set.seed(9137)
+
+sample.ids <- sample(levels(yo$id), 16)
+
+ggplot(aes(x = time, y = price), data = subset(yo, id %in% sample.ids)) + 
+  facet_wrap(~ id) +
+  geom_line() + 
+  geom_point(aes(size = all.purchases), pch = 1)
 ```
 
 ***
@@ -281,6 +320,20 @@ Notes:
 
 ### Scatterplot Matrix
 Notes:
+```{r}
+#install.packages('GGally')
+
+library(GGally)
+
+set.seed(1836)
+pf_subset <- pf[, c(2:15)]
+
+names(pf_subset)
+
+#takes a long time to run
+#ggpairs(pf_subset[sample.int(nrow(pf_subset), 1000), ])
+```
+
 
 ***
 
@@ -293,11 +346,36 @@ Notes:
 Notes:
 
 ```{r}
-nci <- read.table("nci.tsv")
+nci <- read.table("https://s3.amazonaws.com/udacity-hosted-downloads/ud651/nci.tsv")
 colnames(nci) <- c(1:64)
 ```
 
+Note on melt;
+
+melt will convert columns and collapse them as rows
+
+e.g. from:
+
+|id|x|y|
+|-|-|-|
+|1|1|0|
+|2|1|1|
+|3|2|3|
+
+to:
+
+|id|variable|value|
+|-|-|-|
+|1|x|1|
+|1|y|0|
+|2|x|1|
+|2|y|1|
+|3|x|2|
+|3|y|3|
+
 ```{r}
+library(reshape2)
+
 nci.long.samp <- melt(as.matrix(nci[1:200,]))
 names(nci.long.samp) <- c("gene", "case", "value")
 head(nci.long.samp)
@@ -313,6 +391,7 @@ ggplot(aes(y = gene, x = case, fill = value),
 
 ### Analyzing Three of More Variables
 Reflection:
+We learnt how to compare multiple variables incorporating shapes and colors to condify information along with techniques to reduce noise in charts. Also how to use scatter matrixes and heatmaps to view a large amount of data in a single visualization.
 
 ***
 
