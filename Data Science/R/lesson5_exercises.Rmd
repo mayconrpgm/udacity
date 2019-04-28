@@ -1,0 +1,84 @@
+---
+title: "lesson5_exercises"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Diamond prices facet by color
+
+```{r}
+library(ggplot2)
+
+ggplot(aes(x = log(price)), data = diamonds) + 
+  geom_histogram(aes(fill = cut), binwidth = 0.1) + 
+  scale_fill_brewer(type = 'qual') + 
+  facet_wrap(~ color) 
+```
+
+### Scatter plot price vs. table
+
+```{r}
+ggplot(aes(x = table, y = price), data = diamonds) + 
+  geom_point(aes(color = cut), position = position_jitter(height = 0)) + 
+  scale_x_continuous(breaks = seq(49, 80, 2), limits = c(49, 80)) +
+  scale_fill_brewer(type = 'qual')
+```
+
+### Scatterplot price vs. volume
+
+```{r}
+diamonds$volume = diamonds$x * diamonds$y * diamonds$z
+
+ggplot(aes(x = volume, y = price), data = diamonds) + 
+  geom_point(aes(color = clarity)) + 
+  xlim(1, quantile(diamonds$volume, .99)) + 
+  scale_y_log10() + 
+  scale_fill_brewer(type = 'div')
+```
+
+### Friend Count vs. Friendships Initiated proportion
+
+```{r}
+pf <- read.delim('pseudo_facebook.tsv')
+
+pf$prop_initiated <- ifelse(pf$friend_count == 0, NA, pf$friendships_initiated / pf$friend_count)
+```
+
+### Median prop_initiated vs. tenure
+
+```{r}
+pf$year_joined <- 2014 - ceiling(pf$tenure / 365)
+pf$year_joined.bucket <- cut(pf$year_joined, breaks = c(2004, 2009, 2011, 2012, 2014))
+
+ggplot(aes(x = tenure, y = prop_initiated),
+       data = subset(pf, !is.na(year_joined.bucket))) + 
+  geom_line(aes(color = year_joined.bucket), stat = 'summary', fun.y = median)
+```
+### Median prop_initiated vs. tenure smoothed
+
+```{r}
+ggplot(aes(x = tenure, y = prop_initiated),
+       data = subset(pf, !is.na(year_joined.bucket))) + 
+  geom_smooth(aes(color = year_joined.bucket))
+
+ggplot(aes(x = 50 * round(tenure / 50), y = prop_initiated),
+       data = subset(pf, !is.na(year_joined.bucket))) + 
+  geom_line(aes(color = year_joined.bucket), stat = 'summary', fun.y = median)
+```
+
+```{r}
+with(subset(pf, year_joined.bucket = '(2012,2014]'), summary(prop_initiated))
+```
+
+### Scatterplot price/carat vs. cut facet by clarity
+
+```{r}
+ggplot(aes(x = cut, y = price/carat), data = diamonds) + 
+  geom_point(aes(color = color), position = position_jitter(height = 0)) + 
+  scale_fill_brewer(type = 'div') + 
+  facet_wrap(~ clarity)
+```
+
