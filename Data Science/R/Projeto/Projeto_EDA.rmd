@@ -1,0 +1,138 @@
+Análise sobre vinhos tintos e quais propriedades químicas influenciam a qualidade por Maycon Pinheiro Queiros
+========================================================
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, packages}
+# Carregue aqui todos os pacotes utilizados 
+# na sua análise realizada neste arquivo fonte.
+
+# Note que o parâmetro "echo" foi definido como FALSE neste código.
+# Isso previne que o código apresente resultados formatados em HTML.
+# Você deve definir echo=FALSE para todos os blocos de código no seu arquivo.
+
+library(ggplot2)
+library(RColorBrewer)
+library(gridExtra)
+library(GGally)
+library(reshape)
+```
+
+```{r echo=FALSE, Load_the_Data}
+# Carregamento dos dados
+redWines <- read.csv('wineQualityReds.csv')
+
+# Removendo a variável "X" já que é apenas um identificador numérico sequencial
+redWines <- subset(redWines, select = -c(X))
+```
+
+# Seção de Gráficos Univariados
+```{r echo=FALSE, Univariate_Plots}
+dim(redWines)
+```
+```{r}
+str(redWines)
+```
+
+```{r}
+summary(redWines)
+```
+
+```{r}
+meltRedWines <- melt(redWines)
+
+ggplot(meltRedWines, aes(factor(variable), value)) + 
+  geom_boxplot() + 
+  facet_wrap(~variable, scale="free")
+```
+
+
+```{r}
+ggplot(aes(x = quality), data = redWines) + 
+  geom_histogram(binwidth = 1) + 
+  scale_x_continuous(breaks = seq(0,10,1))
+```
+
+
+# Análise Univariada
+
+### Qual é a estrutura do conjunto de dados?
+
+O conjunto de dados analisado é composto por 12 variáveis com 1599 observações.
+
+Todas são variáveis númericas, sendo "quality" a única com valores inteiros e as outras são do tipo ponto flutuante.
+
+### Quais são os principais atributos de interesse deste conjunto de dados?
+
+A variável "quality" será muito importante, ela servirá de variável dependente em que iremos avaliar como as outras variáveis interferem nela. Ela varia numa escala de 0 a 10 e é interessante ver que não há vinhos com qualidade inferior a 3 ou superior a 8.
+
+A variável "density" possui uma amplitude de valores muito baixa. Outras já tem amplitudes maiores como "free.sulfur.dioxide" e "total.sulfur.dioxide"
+
+### Quais outros atributos você acha que podem lhe auxiliar na investigação destes atributos de interesse?
+
+### Você criou novas variáveis a partir dos atributos existentes no conjunto de dados?
+
+### Dos atributos investigados, distribuições incomuns foram encontradas? Você aplicou operações nos dados para limpá-los, ajustá-los ou mudar a forma dos dados? Se sim, por quê?
+
+
+
+# Seção de Gráficos Bivariados
+```{r echo=FALSE, Bivariate_Plots}
+
+```
+
+# Análise Bivariada
+
+### Discuta sobre alguns dos relacionamentos observados nesta parte da investigação. Como os atributos de interesse variaram no conjunto de dados?
+
+### Você observou algum relacionamento interessante entre os outros atributos (os que não são de interesse)?
+
+### Qual foi o relacionamento mais forte encontrado?
+
+
+
+
+# Seção de Gráficos Multivariados
+
+```{r echo=FALSE, Multivariate_Plots}
+
+```
+
+# Análise Multivariada
+
+### Discuta sobre os relacionamentos observados nesta parte da investigação. Quais atributos que fortaleceram os demais na observação das variáveis de interesse?
+
+### Interações surpreendentes e/ou interessantes foram encontradas entre os atributos?
+
+### OPCIONAL: Modelos foram criados usando este conjunto de dados? Discuta sobre os pontos fortes e as limitações do seu modelo.
+
+------
+
+# Gráficos Finais e Sumário
+
+### Primeiro Gráfico
+```{r echo=FALSE, Plot_One}
+
+```
+
+### Descrição do Primeiro Gráfico
+
+
+### Segundo Gráfico
+```{r echo=FALSE, Plot_Two}
+
+```
+
+### Descrição do Segundo Gráfico
+
+
+### Terceiro Gráfico
+```{r echo=FALSE, Plot_Three}
+
+```
+
+### Descrição do Terceiro Gráfico
+
+------
+
+# Reflexão
+
+
