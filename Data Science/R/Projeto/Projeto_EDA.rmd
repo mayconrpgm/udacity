@@ -109,6 +109,9 @@ h2 <- ggplot(aes(x = alcohol), data = redWines.hq) +
   geom_histogram(binwidth = 0.1) + 
   ggtitle("Histograma de alcohol", "vinhos com nota igual ou superior à 7")
 
+grid.arrange(h1, h2, ncol = 2)
+```
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 h3 <- ggplot(aes(x = residual.sugar), data = redWines) + 
   geom_histogram(binwidth = 0.1) + 
   ggtitle("Histograma de residual.sugar", "Todos os vinhos")
@@ -117,18 +120,66 @@ h4 <- ggplot(aes(x = residual.sugar), data = redWines.hq) +
   geom_histogram(binwidth = 0.1)  + 
   ggtitle("Histograma de residual.sugar", "vinhos com nota igual ou superior à 7")
 
-h5 <- ggplot(aes(x = fixed.acidity), data = redWines) + 
-  geom_histogram(binwidth = 0.1) + 
-  ggtitle("Histograma de fixed.acidity", "Todos os vinhos")
-
-h6 <- ggplot(aes(x = fixed.acidity), data = redWines.hq) + 
-  geom_histogram(binwidth = 0.1)  + 
-  ggtitle("Histograma de fixed.acidity", "vinhos com nota igual ou superior à 7")
-
-grid.arrange(h1, h2, h3, h4, h5, h6, ncol = 2)
+grid.arrange(h3, h4, ncol = 2)
 ```
 
-Por fim, vejamos algumas características segmentando vinhos de qualidade igual ou superior à 7 e como eles se comparam aos vinhos no geral. Observamos as variáveis *alcohol*, *residual.sugar* e *fixed.acidity*. Ao que parece, o álcool influencia mais na qualidade quando em valores mais extremos tanto para cima quando para baixo, os vinhos de alta qualidade apresentam uma distribuição um pouco mais uniforme. Já com relação ao açúcar, vinhos mais doces foram considerados inferiores. A acidez parece ser menos relevante já que a amplitude dos valores é praticamente a mesma e a distribuição é mais uniforme.
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+h5 <- ggplot(aes(x = volatile.acidity), data = redWines) + 
+  geom_histogram(binwidth = 0.1) + 
+  ggtitle("Histograma de volatile.acidity", "Todos os vinhos")
+
+h6 <- ggplot(aes(x = volatile.acidity), data = redWines.hq) + 
+  geom_histogram(binwidth = 0.1)  + 
+  ggtitle("Histograma de volatile.acidity", "vinhos com nota igual ou superior à 7")
+
+grid.arrange(h5, h6, ncol = 2)
+```
+```{r}
+h7 <- ggplot(aes(x = free.sulfur.dioxide), data = redWines) + 
+  geom_histogram(binwidth = 1) + 
+  ggtitle("Histograma de free.sulfur.dioxide", "Todos os vinhos")
+
+h8 <- ggplot(aes(x = free.sulfur.dioxide), data = redWines.hq) + 
+  geom_histogram(binwidth = 1)  + 
+  ggtitle("Histograma de free.sulfur.dioxide", "vinhos com nota igual ou superior à 7")
+
+grid.arrange(h7, h8, ncol = 2)
+```
+
+
+Por fim, vejamos algumas características segmentando vinhos de qualidade igual ou superior à 7 e como eles se comparam aos vinhos no geral. Observamos as variáveis *alcohol*, *residual.sugar*, *volatile.acidity* e *free.sulfur.dioxide*. Ao que parece, o álcool influencia mais na qualidade quando em valores mais extremos tanto para cima quando para baixo, os vinhos de alta qualidade apresentam uma distribuição um pouco mais uniforme. Já com relação ao açúcar, vinhos mais doces foram considerados inferiores. A acidez volátil parece interferir em níveis mais altos assim como dióxide de enxofre.
+
+```{r}
+redWines.outliers <- redWines
+
+for(i in c("fixed.acidity","volatile.acidity","citric.acid","residual.sugar","chlorides","free.sulfur.dioxide","total.sulfur.dioxide","density","pH","sulphates","alcohol")) {
+  Q1 = quantile(redWines.outliers[, i], .25)
+  Q3 = quantile(redWines.outliers[, i], .75)
+
+  step = (Q3 - Q1) * 1.5
+  
+  redWines.outliers[, paste(i, 'outlier', sep=".")] <- ifelse(redWines.outliers[, i] > Q3 + step | redWines.outliers[, i] < Q1 - step, 1, 0)
+}
+
+redWines.outliers$has.outlier <- ifelse(
+                            redWines.outliers$fixed.acidity + 
+                            redWines.outliers$volatile.acidity + 
+                            redWines.outliers$citric.acid + 
+                            redWines.outliers$residual.sugar + 
+                            redWines.outliers$chlorides + 
+                            redWines.outliers$free.sulfur.dioxide + 
+                            redWines.outliers$total.sulfur.dioxide + 
+                            redWines.outliers$density + 
+                            redWines.outliers$pH + 
+                            redWines.outliers$sulphates + 
+                            redWines.outliers$alcohol > 0,
+                        1, 0)
+
+ggplot(aes(x = quality), data = subset(redWines.outliers, has.outlier == 0)) + 
+  geom_histogram(binwidth = 1) + 
+  scale_x_continuous(breaks = seq(0,10,1)) 
+```
+
 
 # Análise Univariada
 
@@ -144,13 +195,16 @@ A variável *quality* será muito importante, ela servirá de variável dependen
 
 A variável *density* possui uma amplitude de valores muito baixa. Outras já tem amplitudes maiores como *free.sulfur.dioxide* e *total.sulfur.dioxide*
 
-O nível de açúcar e o teor alcoólico paracem ser relevantes ao determinar a qualidade.
+O nível de açúcar, o teor alcoólico paracem ser relevantes para determinar a qualidade. 
 
 ### Quais outros atributos você acha que podem lhe auxiliar na investigação destes atributos de interesse?
 
-As variáveis referentes à acidez podem ser úteis também para avaliar a qualidade.
+Além disso, a acidez volátil (contribui para o aroma de vinagre) e o equilíbrio das características do vinho também deve ser importante, se alguma propriedade se sobresai demais, ela pode interferir na qualidade [1].
 
-https://www.clubedosvinhos.com.br/qualidade-de-um-vinho/
+O volume de dióxido de enxofre parece interferir na qualidade quando em grande quantidade.
+
+Fontes:
+[1]https://www.clubedosvinhos.com.br/qualidade-de-um-vinho/
 
 ### Você criou novas variáveis a partir dos atributos existentes no conjunto de dados?
 
@@ -161,7 +215,7 @@ Não.
 Os atributos com comportamento mais incomuns foram *free.sulfur.dioxide*, *total.sulfur.dioxide* e *density*.
 
 # Seção de Gráficos Bivariados
-```{r echo=FALSE, message=FALSE, warning=FALSE, Bivariate_Plots}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 ggpairs(redWines)
 ```
 ```{r echo=FALSE}
@@ -170,11 +224,22 @@ ggcorrplot(cor(redWines), type = "lower",
 ```
 Vamos começar por analisar se existem correlações existentes entre as variáveis utilizando matrizes de correlação. Em termos de correlação com qualidade, as únicas variáveis que tem uma correlação mais relevante são *alcohol* (correlação positiva) e *volatile.acidity* (correlação negativa) e mesmo assim são correlações fracas. Há correlações mais fortes entre as outras características, como entre *density* e *fixed.acidity* e *pH* e as variáveis relacionadas à acidez (sendo uma correlação mais óbvia, já que quanto menor o pH é esperado um maior teor de acidez)
 
-```{r}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 ggplot(aes(x = residual.sugar, y = quality), data = redWines) + 
-  geom_jitter()
+  geom_jitter(alpha = .1)
 ```
-
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+ggplot(aes(x = alcohol, y = quality), data = redWines) + 
+  geom_jitter(alpha = .1)
+```
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+ggplot(aes(x = volatile.acidity, y = quality), data = redWines) + 
+  geom_jitter(alpha = .1)
+```
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+ggplot(aes(x = free.sulfur.dioxide, y = quality), data = redWines) + 
+  geom_jitter(alpha = .1)
+```
 # Análise Bivariada
 
 ### Discuta sobre alguns dos relacionamentos observados nesta parte da investigação. Como os atributos de interesse variaram no conjunto de dados?
