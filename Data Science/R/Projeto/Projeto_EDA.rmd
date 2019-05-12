@@ -42,28 +42,33 @@ Todas são variáveis númericas, sendo "quality" a única com valores inteiros 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 summary(redWines)
 ```
-
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-redWines.molten <- melt(redWines)
+normalize <- function(x) {
+    return ((x - min(x)) / (max(x) - min(x)))
+}
 
-ggplot(aes(x = factor(variable), y = value), data = redWines.molten) + 
+redWines.norm <- as.data.frame(lapply(redWines, normalize))
+
+redWines.norm.molten <- melt(redWines.norm)
+
+ggplot(aes(x = factor(variable), y = value), data = redWines.norm.molten) + 
   geom_boxplot() + 
   facet_wrap(~variable, scale="free")
 ```
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-ggplot(aes(x = value), data = redWines.molten) + 
-  geom_histogram(binwidth = 0.1) + 
+ggplot(aes(x = value), data = redWines.norm.molten) + 
+  geom_histogram(binwidth = 0.05) + 
   facet_wrap(~variable, scale="free")
 ```
 
-Primeiramente, analisarei a estrutura geral e distribuição de cada variável. Observando os boxplots, podemos ver que muitas das variáveis apresentam outliers, por exemplo, as variáveis *residual.sugar*, *chlorides* e *sulphates*. A variável *density* tem um comportamento interessante, a amplitude dos valores é bem pequena, concentrados em uma pequena faixa de valores, algo similar aconcete com a variável *sulphates*, os valores estão concentrados em uma pequena faixa, porém temos outliers que estão bem acima da média/mediana.
+Primeiramente, analisarei a estrutura geral e distribuição de cada variável. Para gerar os gráficos, apliquei uma normalização nas variáveis para que os valores fiquem todos na mesma escala com valores entre 0 e 1 (técnica chamada de *min-max normalization*).
 
-Observando os histogramas, é possível ver de início algumas variáveis com distribuições normais ou próximas disso, sendo elas *fixed.acidity*, *volatile.acidity*, *pH* e *quality*.
+Observando os boxplots, podemos ver que muitas das variáveis apresentam outliers, por exemplo, as variáveis *residual.sugar*, *chlorides* e *sulphates*. A variável *density* tem um comportamento interessante, a amplitude dos valores é bem pequena, concentrados em uma pequena faixa de valores, algo similar aconcete com a variável *sulphates*, os valores estão concentrados em uma pequena faixa, porém temos outliers que estão bem acima da média/mediana.
 
-Outras variáveis tem uma visível distribuição distorcida à direita, como *citric.acid* e *alcohol*. O *residual.sugar* também aparenta isso, mas pode ser devido aos outliers presentes mais à direita do gráfico.
+Observando os histogramas, é possível ver de início algumas variáveis com distribuições normais ou próximas disso, sendo elas *fixed.acidity*, *volatile.acidity*, *pH*, *density* e *quality*.
 
-A variável *free.sulfur.dioxide* possui valores bem esparsos assim como *total.sulfur.dioxide*, esta última com valores concentrados em certas faixas. *density* parece ter uma distribuição homogênea, embora isso possa ser devido ao tamanho definido para o bin, já que os valores dessa variável se alteram em uma escala inferior a 0.1.
+Outras variáveis tem uma visível distribuição distorcida à direita, como *citric.acid* e *alcohol*. AS variáveis *residual.sugar* e *chlorides* também aparentam isso, mas pode ser devido aos outliers presentes mais à direita dos gráficos.
 
 Agora vamos observar com mais detalhes algumas das variáveis.
 
@@ -77,13 +82,6 @@ ggplot(aes(x = quality), data = redWines) +
 ```
 
 A variável *quality* apresenta uma distribuição normal como vimos anteriormente, embora e curva é bem estreita, a concertração maior é entre as notas 5 e 6. É interessante perceber que não há nenhum vinho com nota inferior à 3 e nem superior à 8. Metade dos vinhos possui nota superior a 6.
-
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-ggplot(aes(x = density), data = redWines) + 
-  geom_histogram(binwidth = 0.001) 
-```
-
-Reajustando a largura dos bins para a variável *density*, vemos que ela possui uma distribuição normal, talvez seja interessante aplicar algun tipo de transformação para afastar mais os valores entre si e facilitar a identificação de correlações.
 
 ```{r}
 ggplot(aes(x = residual.sugar), data = redWines) + 
@@ -215,7 +213,7 @@ Também criei outra variável que indica a quantidade de variáveis com valores 
 
 ### Dos atributos investigados, distribuições incomuns foram encontradas? Você aplicou operações nos dados para limpá-los, ajustá-los ou mudar a forma dos dados? Se sim, por quê?
 
-Os atributos com comportamento mais incomuns foram *free.sulfur.dioxide*, *total.sulfur.dioxide* e *density*.
+Os atributos com comportamento mais incomuns foram *residual.sugar* e *chlorides*. Não apliquei transaformações nos mesmos.
 
 # Seção de Gráficos Bivariados
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
@@ -242,26 +240,24 @@ ggplot(aes(x = volatile.acidity, y = quality), data = redWines) +
 Acima vemos os gráficos de dispersão apresentando as variáveis com maior correlação, *alcohol* e *volatile.acidity*. Podemos confirmar que existe uma correlação, a linhas de tendência mostram que conforme o teor alcoólico aumenta a qualidade acompanha, porém a distribuição dos pontos é esparsa, ou seja, olhar apenas o teor alcoólico não é o suficiente para dizer se o vinho é bom ou não. A acidez volátil possui um comportamento similar, mas possui correlação um pouco mais forte e no sentino negativo.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
+curve <- data.frame(x1 = 2, x2 = 15, y1 = 3, y2 = 5)
+
 ggplot(aes(x = residual.sugar, y = quality), data = redWines) + 
   geom_jitter(alpha = .1) + 
-  geom_vline(aes(xintercept = quantile(residual.sugar, .75) + (IQR(residual.sugar) * 1.5), color="red"), linetype="dashed", size = .5) +
+  geom_vline(aes(xintercept = quantile(residual.sugar, .75) + (IQR(residual.sugar) * 1.5), color = "red"), linetype = "dashed", size = 1) +
+  geom_curve(aes(x = x1, y = y1, xend = x2, yend = y2), data = curve, curvature = -0.5, color = "blue", linetype = "dashed", size = 1) +
   theme(legend.position = "none")
 ```
-Observando o gráfico de dispersão entre a quantidade de açúcar e a qualidade, vemos que o que foi observado anteriormente no histograma de *residual.sugar* fica um pouco mais evidente, a linha vertical tracejada indica o limite onde a quantidade de açúcar é considerada um outlier dentre os vinhos observados, vinhos mais doces não são avaliados como de alta qualidade, mas é interessante notar uma certa curva em que a qualidade sobe um pouco com o aumento do açúcar e depois desce quando esta quantidade é muito alta.
-
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-sugarUpperFence <- quantile(redWines$residual.sugar, .75) + (IQR(redWines$residual.sugar) * 1.5)
-
-
-ggplot(aes(x = residual.sugar, y = quality), data = subset(redWines, residual.sugar < sugarUpperFence)) + 
-  geom_jitter(alpha = .1) + 
-  geom_smooth(color = "red", method = "lm")
-```
+Observando o gráfico de dispersão entre a quantidade de açúcar e a qualidade, vemos que o que foi observado anteriormente no histograma de *residual.sugar* fica um pouco mais evidente, a linha vertical tracejada indica o limite onde a quantidade de açúcar é considerada um outlier dentre os vinhos observados, vinhos mais doces não são avaliados como de alta qualidade, mas é interessante notar uma certa curva (linha tracejada em azul) em que a qualidade sobe um pouco com o aumento do açúcar e depois desce quando esta quantidade é muito alta, demostrando uma correlação não-linear, porém, seria necessário obter mais amostras de vinhos com concentração mais alta de açúcar para comprovar está hipótese, já que a grande maioria nesta amostra possui concentrações mais baixas.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 ggplot(aes(x = free.sulfur.dioxide, y = quality), data = redWines) + 
-  geom_jitter(alpha = .1)
+  geom_jitter(alpha = .1) + 
+  geom_vline(aes(xintercept = quantile(free.sulfur.dioxide, .75) + (IQR(free.sulfur.dioxide) * 1.5), color = "red"), linetype = "dashed", size = 1) +
+  theme(legend.position = "none")
 ```
+Observando a variável *free.sulfur.dioxide*, vemos que, quando em grande quantidade (novamente, a linha vermelha tracejada indica o limite onde a observação em considerada um outlier), a qualidade do vinho parece ser afetada. 
+
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 rw.outlier_group <- redWines.outliers %>% 
   group_by(outlier_count) %>%
@@ -270,36 +266,91 @@ rw.outlier_group <- redWines.outliers %>%
             n = n()) %>%
   arrange(outlier_count)
 
-ggplot(aes(x = outlier_count), data = rw.outlier_group) + 
+p1 <- ggplot(aes(x = outlier_count), data = rw.outlier_group) + 
   geom_line(aes(y = quality_mean, colour = "quality_mean")) + 
-  geom_line(aes(y = quality_median, colour = "quality_median")) 
-```
+  geom_line(aes(y = quality_median, colour = "quality_median")) + 
+  ylab(label = "Quality")
 
+p2 <- ggplot(aes(x = outlier_count), data = redWines.outliers) + 
+  geom_histogram(binwidth = 1)
+
+grid.arrange(p1, p2, ncol = 1)
+```
+Por fim, vejamos se o vinho apresenta muitas variáveis com valores aberrantes impacta em sua nota final. Vemos um comportamento interessante. Entre 0 e 1 atributos outliers, a qualidade parece não variar muito, em 2, a nota cai consideravelmente, mas com 3, a nota aumenta, a média chega a ser maior quando possui 0 ou 1. E a nota cai mais uma vez quando há 4 variáveis aberrantes. E importante apenas resaltar que há poucas amostras com 3 e 4 variáveis aberrantes (como mostrado no segundo gráfico), então esta hipótese precisa ser testada com um número maior de amostras.
 
 # Análise Bivariada
 
 ### Discuta sobre alguns dos relacionamentos observados nesta parte da investigação. Como os atributos de interesse variaram no conjunto de dados?
 
+Foi possível observar a correlação entre a qualidade e os outros atributos do vinho. Os únicos com uma correlação mais forte foram *alcohol* e *volatile.acidity*. Outras correlações possíveis foram com *residual.sugar* e *free.sulfur.dioxide*, embora não sejam correlações lineares.
+
 ### Você observou algum relacionamento interessante entre os outros atributos (os que não são de interesse)?
+
+Foi interessante observar como a quantidade de variáveis aberrantes parecem ter influência na qualidade, como descrito no início da análise, o equilíbrio entre as características é importante, mas estranhamente quando há 3 variáveis outliers a qualidade apresentou uma leve melhora.
 
 ### Qual foi o relacionamento mais forte encontrado?
 
-
+O relacionamento mais forte foi com a variável *alcohol*.
 
 
 # Seção de Gráficos Multivariados
 
 ```{r echo=FALSE, Multivariate_Plots}
-
+ggplot(aes(x = volatile.acidity, y = quality), data = redWines.outliers) + 
+  geom_point(aes(color = alcohol), position = "jitter", alpha = .5) +  
+  scale_color_gradientn(colours = colorRampPalette(c("blue", "red"))(100))
 ```
+
+```{r echo=FALSE, Multivariate_Plots}
+ggplot(aes(x = residual.sugar, y = quality), data = redWines.outliers) + 
+  geom_point(aes(color = alcohol), position = "jitter", alpha = .5) +  
+  scale_color_gradientn(colours = colorRampPalette(c("blue", "red"))(100))
+```
+
+```{r}
+ggplot(aes(x = alcohol, y = quality), data = subset(redWines.outliers, alcohol.outlier == 0)) + 
+  geom_point(aes(color = factor(outlier_count), size = outlier_count), position = "jitter") +  
+  scale_color_brewer(type = 'qual')
+```
+```{r}
+set.seed(999)
+
+rw <- read.csv('wineQualityReds.csv')
+rw.norm <- as.data.frame(lapply(subset(rw, select = -c(X)), normalize))
+rw.norm$X <- factor(rw$X)
+rw.norm.hq <- subset(rw.norm, quality >= 0.8)
+rw.norm.molten <- melt(rw.norm, id = c("X"))
+
+sample.ids <- sample(rw.norm.hq$X, 50)
+
+ggplot(aes(y = X, x = variable, fill = value),
+  data = subset(rw.norm.molten, X %in% sample.ids)) +
+  geom_tile() +
+  scale_fill_gradientn(colours = colorRampPalette(c("blue", "red"))(100))
+```
+Finalmente, vemos um mapa de calor onde peguei uma amostra de 50 vinhos com qualidade maior ou igual à 7, cada linha representa um vinho e as colunas são as variáveis correspondentes às propriedades químicas juntamente com a variável correspondente à qualidade, as variáveis foram normalizadas utilizando a técnica *min-max scaling*. As células do mapa indicam quão alto é o valor da variável dentro de sua própria distribuição, ou seja, quanto mais vermelha, mais para a direita do histograma dessa varíavel e quanto mais azul, mais à esquerda.
+
+Podemos ver que para as variáveis *alcohol*, *density* e *pH* predominam valores mais altos, enquanto *volatile.acidity*, *residual.sugar*, *chlorides*, *total.sulfur.dioxide* e *free.sulfur.dioxide* tem prevalência de valores mais baixos, as outras variáveis apresentam uma variação mais regular.
+
+Algo interessanto é que vinhos de alta qualidade com baixo teor alcoólico, também apresentam valores mais baixos no geral em quase todas as variáveis.
+
+Com base nessa amostra, vemos que vinhos com maior teor alcoólico, menos ácidos e menos doces tendem a ter uma avaliação de qualidade maior.
 
 # Análise Multivariada
 
 ### Discuta sobre os relacionamentos observados nesta parte da investigação. Quais atributos que fortaleceram os demais na observação das variáveis de interesse?
 
+Os gráficos gerados reforçam a importância do teor alcoólico e da acidez volátil, vimos, por exemplo, que em vinhos com baixa concentração de açúcar a maoria dos que possuem uma avaliação melhor também tendem a ter um teor alcoólico mais alto.
+
 ### Interações surpreendentes e/ou interessantes foram encontradas entre os atributos?
 
+Vinhos com maior teor alcoólico, menos ácidos e menos doces tendem a ter uma avaliação de qualidade maior.
+
+Quando um vinho avaliado como de alta qualidade mas com baixo teor alcoólico, estes também apresentam valores mais baixos no geral em quase todas as variáveis.
+
 ### OPCIONAL: Modelos foram criados usando este conjunto de dados? Discuta sobre os pontos fortes e as limitações do seu modelo.
+
+Não foram criados modelos.
 
 ------
 
