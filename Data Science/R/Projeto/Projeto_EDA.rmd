@@ -223,6 +223,7 @@ ggpairs(redWines)
 ggcorrplot(cor(redWines), type = "lower",
    lab = TRUE)
 ```
+
 Vamos começar por analisar se existem correlações existentes entre as variáveis utilizando matrizes de correlação. Em termos de correlação com qualidade, as únicas variáveis que tem uma correlação mais relevante são *alcohol* (correlação positiva) e *volatile.acidity* (correlação negativa) e mesmo assim são correlações fracas. Há correlações mais fortes entre as outras características, como entre *density* e *fixed.acidity* e *pH* e as variáveis relacionadas à acidez (sendo uma correlação mais óbvia, já que quanto menor o pH é esperado um maior teor de acidez).
 
 Isso não que dizer que as outras variáveis não tem influência sobre a qualidade, é possível que as correlações não sejam lineares.
@@ -237,6 +238,7 @@ ggplot(aes(x = volatile.acidity, y = quality), data = redWines) +
   geom_jitter(alpha = .1) + 
   geom_smooth(color = "red", method = "lm")
 ```
+
 Acima vemos os gráficos de dispersão apresentando as variáveis com maior correlação, *alcohol* e *volatile.acidity*. Podemos confirmar que existe uma correlação, a linhas de tendência mostram que conforme o teor alcoólico aumenta a qualidade acompanha, porém a distribuição dos pontos é esparsa, ou seja, olhar apenas o teor alcoólico não é o suficiente para dizer se o vinho é bom ou não. A acidez volátil possui um comportamento similar, mas possui correlação um pouco mais forte e no sentino negativo.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
@@ -248,6 +250,7 @@ ggplot(aes(x = residual.sugar, y = quality), data = redWines) +
   geom_curve(aes(x = x1, y = y1, xend = x2, yend = y2), data = curve, curvature = -0.5, color = "blue", linetype = "dashed", size = 1) +
   theme(legend.position = "none")
 ```
+
 Observando o gráfico de dispersão entre a quantidade de açúcar e a qualidade, vemos que o que foi observado anteriormente no histograma de *residual.sugar* fica um pouco mais evidente, a linha vertical tracejada indica o limite onde a quantidade de açúcar é considerada um outlier dentre os vinhos observados, vinhos mais doces não são avaliados como de alta qualidade, mas é interessante notar uma certa curva (linha tracejada em azul) em que a qualidade sobe um pouco com o aumento do açúcar e depois desce quando esta quantidade é muito alta, demostrando uma correlação não-linear, porém, seria necessário obter mais amostras de vinhos com concentração mais alta de açúcar para comprovar está hipótese, já que a grande maioria nesta amostra possui concentrações mais baixas.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
@@ -277,6 +280,7 @@ p2 <- ggplot(aes(x = outlier_count), data = redWines.outliers) +
 
 grid.arrange(p1, p2, ncol = 1)
 ```
+
 Por fim, vejamos se o vinho apresenta muitas variáveis com valores aberrantes impacta em sua nota final. Vemos um comportamento interessante. Entre 0 e 1 atributos outliers, a qualidade parece não variar muito, em 2, a nota cai consideravelmente, mas com 3, a nota aumenta, a média chega a ser maior quando possui 0 ou 1. E a nota cai mais uma vez quando há 4 variáveis aberrantes. E importante apenas resaltar que há poucas amostras com 3 e 4 variáveis aberrantes (como mostrado no segundo gráfico), então esta hipótese precisa ser testada com um número maior de amostras.
 
 # Análise Bivariada
@@ -301,6 +305,7 @@ ggplot(aes(x = volatile.acidity, y = quality), data = redWines.outliers) +
   geom_point(aes(color = alcohol), position = "jitter", alpha = .5) +  
   scale_color_gradientn(colours = colorRampPalette(c("blue", "red"))(100))
 ```
+
 Neste gráfico, analisamos como é a relação entre teor alcoólico e a acidez volátil, o que vemos é uma certa convergência em que é mais predominante entre os vinhos de alta qualidade um teor alcoólico maior e com baixa acidez volátil.
 
 ```{r echo=FALSE, Multivariate_Plots}
@@ -308,6 +313,7 @@ ggplot(aes(x = residual.sugar, y = quality), data = redWines.outliers) +
   geom_point(aes(color = alcohol), position = "jitter", alpha = .5) +  
   scale_color_gradientn(colours = colorRampPalette(c("blue", "red"))(100))
 ```
+
 Isso se reforça ao observar a quantidade de açúcar residual e o teor alcoólico, vemos também que dentre os vinhos com melhor avaliação predominam os menos adocicados e com maior teor alcooólico. Mesmo os vinhos mais doces que estão mais acima no gráfico apresentam um teor alcoólico tendendo para o mais alto.
 
 ```{r echo=FALSE}
@@ -326,6 +332,7 @@ ggplot(aes(y = X, x = variable, fill = value),
   geom_tile() +
   scale_fill_gradientn(colours = colorRampPalette(c("blue", "red"))(100))
 ```
+
 Finalmente, vemos um mapa de calor onde peguei uma amostra de 50 vinhos com qualidade maior ou igual à 7, cada linha representa um vinho e as colunas são as variáveis correspondentes às propriedades químicas juntamente com a variável correspondente à qualidade, as variáveis foram normalizadas utilizando a técnica *min-max normalization*. As células do mapa indicam quão alto é o valor da variável dentro de sua própria distribuição, ou seja, quanto mais vermelha, mais para a direita do histograma dessa varíavel e quanto mais azul, mais à esquerda.
 
 Podemos ver que para as variáveis *alcohol*, *density* e *pH* predominam valores mais altos, enquanto *volatile.acidity*, *residual.sugar*, *chlorides*, *total.sulfur.dioxide* e *free.sulfur.dioxide* tem prevalência de valores mais baixos, as outras variáveis apresentam uma variação mais regular.
@@ -398,7 +405,7 @@ Acima temos um mapa de calor onde peguei uma amostra de 50 vinhos com qualidade 
 
 Podemos ver que para as variáveis *alcohol*, *density* e *pH* predominam valores mais altos, enquanto *volatile.acidity*, *residual.sugar*, *chlorides*, *total.sulfur.dioxide* e *free.sulfur.dioxide* tem prevalência de valores mais baixos, as outras variáveis apresentam uma variação mais regular.
 
-Algo interessanto é que vinhos de alta qualidade com baixo teor alcoólico, também apresentam valores mais baixos no geral em quase todas as variáveis.
+Algo interessante é que vinhos de alta qualidade com baixo teor alcoólico, também apresentam valores mais baixos no geral em quase todas as variáveis.
 
 Com base nessa amostra, vemos que vinhos com maior teor alcoólico, menos ácidos e menos doces tendem a ter uma avaliação de qualidade maior.
 
@@ -408,4 +415,8 @@ Com base nessa amostra, vemos que vinhos com maior teor alcoólico, menos ácido
 
 O conjunto de dados analisado possui informações sobre 1599 vinhos tintos sendo classificados numa escala de qualidade que varia de 0 a 10 e medições sobre várias de suas propriedades químicas, como teor alcoólico, nível de açúcar, acidez, densidade, etc.
 
-Comecei por analisar como as variáveis se comportavam no geral, observando suas distribuições e como elas interferem na qualidade do vinho. A qualidade, apesar da escala definida entre 0 e 10, variou na amostra entre 3 e 8 sendo que metade dos vinhos possui nota 6 ou superior.
+Comecei por analisar como as variáveis se comportavam no geral, observando suas distribuições e como elas interferem na qualidade do vinho. A qualidade, apesar da escala definida entre 0 e 10, variou na amostra entre 3 e 8 sendo que metade dos vinhos possui nota 6 ou superior. 
+
+As variáveis que apresentaram uma correlação mais fortes com a qualidade foram o teor alcoólico e o nível de acidez volátil, esta última, quando em altos níveis, contribui para um sabor desagradável de vinagre. O nível de açúcar aparenta uma correlação não-linear, em que até um certo nível a qualidade aumenta, mas quando o vinho é muito doce, a nota cai. Outra característica percebida foi o equilíbrio entre as características do vinho, se alguns atributos se sobressaem demais, isso afeta a qualidade, estranhamente quando há 3 atributos fora do normal a nota parece aumentar.
+
+Outra observação interessante é que vinhos de alta qualidade com baixo teor alcoólico, também apresentam valores mais baixos no geral em quase todas as variáveis.
