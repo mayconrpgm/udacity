@@ -105,6 +105,7 @@ ggplot(aes(x = residual.sugar), data = rw) +
   xlim(min(rw$residual.sugar), quantile(rw$residual.sugar, .95)) +
   ggtitle("Histograma de Açúcar Residual (95º Percentil)")
 ```
+
 O gráfico acima é um zoom considerando apenas as observações dentro do 95º percentil da variável *residual.sugar*, vemos que ainda há uma distorção significativa à direita.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
